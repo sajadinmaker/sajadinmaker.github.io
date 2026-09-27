@@ -50,7 +50,21 @@ a:hover { color: #fff; }
 hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
 
 .muted { color: var(--muted); }
+.meta { color: var(--muted); }
 .small { font-size: 0.9rem; }
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--link);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.05rem 0.4rem;
+  vertical-align: 0.1em;
+  white-space: nowrap;
+}
 
 ul.plain { list-style: none; padding-left: 0; }
 ul.plain li { margin-bottom: 0.8rem; }

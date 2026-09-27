@@ -40,7 +40,7 @@
   <p class="breadcrumb"><a href="../projects.html">projects</a> / hookflow</p>
   <h1>HookFlow</h1>
   <p><em>Reliable webhook and event delivery infrastructure.</em></p>
-  <p class="metaline">Python · FastAPI · PostgreSQL · Redis · Docker · pytest — 17 tests, CI, Docker Compose — <a href="https://github.com/sajadinmaker/hookflow">source</a></p>
+  <p class="metaline">Python · FastAPI · PostgreSQL · Redis · Docker · Next.js — 73 tests, ~93% line coverage, 5 CI jobs — <a href="https://github.com/sajadinmaker/hookflow">source</a></p>
 
   <h2>Problem</h2>
   <p>Customer webhook endpoints are flaky: timeouts, 5xx responses, deploys mid-delivery. Sending the POST inside the producer's request handler couples API latency to the customer's worst day — and a failed POST means a lost event.</p>
@@ -54,27 +54,31 @@
 
   <h2>Architecture</h2>
   <pre>Client
-  ↓ POST /v1/events (validate, Idempotency-Key)
-FastAPI (register endpoints, ingest, history)
+  ↓ POST /v1/events (API key, validate, Idempotency-Key)
+FastAPI (tenants, endpoints, ingest, history)
   ↓ persist first
-PostgreSQL (endpoints, events, deliveries)
+PostgreSQL (tenants, endpoints, events, deliveries — Alembic migrations)
   ↓ notify (wake-up hint)
-Redis list ──→ Worker (polls due rows regardless)
+Redis list ──→ Workers (atomic claim + lease, FOR UPDATE SKIP LOCKED)
   ↓ sign + POST + timeout
 Customer webhook (verifies X-Hookflow-Signature)
   ↓
-Delivery history + replay + /metrics + /v1/stats</pre>
+Delivery history + DLQ replay + /metrics + /v1/stats + operator dashboard</pre>
 
   <h2>Implementation</h2>
-  <p>Ingest validates (http(s) URL, JSON-serializable payload under 256KB), checks idempotency, then commits <code>Event + Delivery(status=queued)</code> in a single transaction before touching Redis. The worker signs each POST with per-endpoint HMAC-SHA256 (<code>X-Hookflow-Signature: sha256=…</code>), enforces a 10s timeout, and settles the row: success, retrying with backoff, or dead-letter after 5 attempts (1m → 5m → 30m → 2h → 12h). A replay endpoint resets dead-letter rows to queued; successes are not requeueable, since replaying one would duplicate a side effect at the receiver. Per-endpoint fixed-window rate limits, request IDs on every response, and Prometheus-text <code>/metrics</code> plus <code>/v1/stats</code> (queue depth by status) cover observability.</p>
+  <p>Ingest validates (http(s) URL, JSON-serializable payload under 256KB), checks idempotency, then commits <code>Event + Delivery(status=queued)</code> in a single transaction before touching Redis — schema managed by Alembic migrations with a CI gate that fails on model/migration drift. The worker signs each POST with per-endpoint HMAC-SHA256 (<code>X-Hookflow-Signature: sha256=…</code>), enforces a 10s timeout, and settles the row: success, retrying with backoff, or dead-letter after 5 attempts (1m → 5m → 30m → 2h → 12h). Webhook secrets are encrypted at rest (Fernet envelope); tenants are isolated with per-tenant API keys (SHA-256 digest stored, plaintext shown once). A replay endpoint resets dead-letter rows to queued; successes are not requeueable, since replaying one would duplicate a side effect at the receiver. Per-endpoint fixed-window rate limits, request IDs on every response, and Prometheus-text <code>/metrics</code> plus <code>/v1/stats</code> (queue depth by status) cover observability. A Next.js operator dashboard sits on top: overview, endpoints, deliveries, DLQ with replay, metrics, and key management.</p>
 
   <h2>Engineering decisions</h2>
   <ul>
     <li><strong>Persist before enqueue.</strong> An accepted event is never lost even if Redis drops the wake-up, because the worker polls due rows.</li>
     <li><strong>At-least-once + idempotency keys</strong> instead of exactly-once claims. A <code>UNIQUE(endpoint_id, idempotency_key)</code> constraint plus an <code>IntegrityError</code> catch closes the race where two concurrent ingests both pass the app-level existence check — the loser returns the winner as deduplicated.</li>
+    <li><strong>Atomic multi-worker claims with leases.</strong> Workers claim due rows in one transaction (<code>FOR UPDATE SKIP LOCKED</code>, claim token, 60s lease) so N workers never queue behind each other and a crashed worker's rows become claimable again instead of stuck. See Concurrency below.</li>
     <li><strong>Worker poll indexed</strong> on <code>(status, next_attempt_at)</code> so the 2s poll never full-scans.</li>
     <li><strong>Observability without new dependencies</strong> — in-process counters, request-ID middleware, stats endpoint.</li>
   </ul>
+
+  <h2>Concurrency</h2>
+  <p>Two workers can observe the same pending delivery. The fix is a claim issued as a single <code>UPDATE</code> whose subquery excludes rows already claimed under a live lease — the database serialises the two racers, and the loser's subquery is re-evaluated against the winner's committed rows, so it simply finds fewer candidates. A plain SELECT-then-UPDATE would not be safe. On PostgreSQL the subquery additionally uses <code>FOR UPDATE SKIP LOCKED</code> so N workers never queue behind each other; each claim carries a token plus a 60s lease, so a crashed worker's rows become claimable again instead of stuck. A worker settles each row only while it holds the token; success releases the claim and a sweeper frees stale ones. The test suite drives real overlapping claimers and asserts disjoint claim sets — zero double delivery — plus lease expiry, claim release on settle, and rate-limited deliveries never stranded.</p>
 
   <h2>Challenges</h2>
   <p>The idempotency race above was the sharpest edge: the app-level "does this key exist?" check is correct for sequential requests and wrong under concurrency. The UNIQUE constraint is the actual guarantee; the application code is the friendly path. Testing it meant driving two overlapping ingests rather than trusting the single-threaded test.</p>
@@ -90,10 +94,14 @@ Delivery history + replay + /metrics + /v1/stats</pre>
 
   <h2>Trade-offs</h2>
   <ul>
-    <li>Memory rate-limit/queue fallback is single-replica only — documented, not hidden.</li>
-    <li><code>create_all</code> instead of Alembic: acceptable for 3 tables with no alterations yet; migrations arrive with the first ALTER.</li>
-    <li>Secrets stored plaintext; no multi-tenant auth — endpoint secrets authenticate receivers, not producers. Per-tenant API keys are the next change.</li>
+    <li>Memory rate-limit/queue fallback is single-replica only — documented, not hidden. The claim path is replica-safe; the limiter is not.</li>
+    <li>Secrets are encrypted, not hashed, because the server must reproduce them to sign — documented in <code>docs/security.md</code>, with unknown envelope versions rejected loudly.</li>
+    <li>API keys have no expiry and there are no per-tenant quotas yet; revocation exists, rotation does not.</li>
+    <li>Backoff schedule is fixed at config level, not per endpoint. No TLS in Compose; terminate at a load balancer.</li>
   </ul>
+
+  <h2>Operator dashboard</h2>
+  <p>A Next.js dashboard over the same API: overview queue depth, endpoints management, deliveries history, DLQ with one-click replay, metrics, and API key management. The interface is the product surface; the claim/lease mechanism is the engineering underneath.</p>
 
   <h2>Lessons</h2>
   <p>Webhook delivery is a persistence problem, not a POST problem. The interesting work is all in the failure paths: what happens when the receiver is down, when Redis is down, when two producers race. Each got a mechanism (polling fallback, backoff + DLQ, UNIQUE constraint) plus a test.</p>
