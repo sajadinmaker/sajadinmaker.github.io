@@ -28,9 +28,7 @@
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
     <a href="../writing.html">Writing</a>
-    <a href="../engineering.html">Engineering</a>
-    <a href="../ai.html">AI</a>
-    <a href="../now.html">Now</a>
+    <a href="../about.html">About</a>
   </nav>
 </header>
 
@@ -45,24 +43,26 @@
     <p><em>Webhook delivery is a persistence problem, not a POST problem.</em></p>
   </header>
 
-  <p>The naive webhook sender does <code>requests.post(customer_url, json=event)</code> inside the request handler. That couples your API latency to the customer's worst day: their deploy, their timeout, their 500. I built HookFlow around the opposite order — persist the event and its delivery row first, acknowledge the producer, and let a worker own the unreliable part.</p>
+  <p>The naive way to send a webhook is one line: <code>requests.post(customer_url, json=event)</code>, right there in the request handler. I did that first, like everyone does. Then I thought about what happens when the customer's server is deploying at that exact second — my API just hangs, waiting on their worst day. Their timeout becomes my latency, and if the POST fails, the event is gone. That one line was doing way too much trusting.</p>
+
+  <p>So I flipped the order. HookFlow saves the event and its delivery row first, tells the producer "got it," and lets a worker deal with the unreliable part in the background. The POST still happens — it's just no longer anyone's problem except the worker's.</p>
 
   <h2>Constraints</h2>
-  <p>One service, one database, one queue — no Kafka, no Kubernetes. Redis had to be optional: the system must stay correct on plain database polling, because an MVP that requires four daemons to be correct is an MVP that is never correct. Receivers must be able to verify every delivery and safely receive it twice.</p>
+  <p>I gave myself a small box on purpose: one service, one database, one queue. No Kafka, no Kubernetes. Redis had to be optional, because a side project that needs four daemons running to be correct is never actually correct on my laptop at midnight. And receivers had to be able to verify every delivery and survive getting one twice.</p>
 
   <h2>Architecture</h2>
   <pre>Client → FastAPI → PostgreSQL → Redis (hint) → Worker → webhook</pre>
-  <p>The ingest path validates (http(s) URL, JSON-serializable payload under 256KB), checks idempotency, then commits <code>Event + Delivery(status=queued)</code> in one transaction before touching Redis. Redis only carries a wake-up hint; the worker polls due rows regardless, so a dropped message delays delivery instead of losing it. Measured on SQLite via TestClient: 39 rps at p95 29ms for 1KB payloads — the cost is the transaction, not the bytes.</p>
+  <p>Ingest validates the URL and payload (under 256KB), checks idempotency, then commits <code>Event + Delivery(status=queued)</code> in a single transaction before Redis ever hears about it. Redis only carries a wake-up hint — the worker polls due rows regardless, so if Redis drops the hint, delivery is late, not lost. I measured it on SQLite via TestClient: 39 requests a second at p95 29ms for 1KB payloads. Barely changes with payload size, which told me the cost is the transaction, not the bytes. Good to know, slightly annoying to learn.</p>
 
   <h2>The decision that mattered</h2>
-  <p>At-least-once plus idempotency keys instead of exactly-once claims. A <code>UNIQUE(endpoint_id, idempotency_key)</code> constraint plus an <code>IntegrityError</code> catch closes the race where two concurrent ingests both pass the app-level existence check — the loser returns the winner as deduplicated. The application check is the friendly path; the constraint is the actual guarantee. The worker poll is indexed on <code>(status, next_attempt_at)</code> for the same reason: correctness mechanisms must not depend on tables staying small.</p>
+  <p>At-least-once delivery plus idempotency keys, instead of pretending I could build exactly-once. There's a <code>UNIQUE(endpoint_id, idempotency_key)</code> constraint in the database, and the code catches the <code>IntegrityError</code> — because here's the thing I keep relearning: the app-level "does this key exist?" check works fine until two requests arrive at the same time, and then it lies to you. The constraint is the real guarantee; the application check is just the polite path. Same thinking behind indexing the worker poll on <code>(status, next_attempt_at)</code>: correctness shouldn't depend on tables staying small.</p>
 
   <h2>Failure and backoff</h2>
-  <p>Backoff with a dead end: 1m → 5m → 30m → 2h → 12h across 5 attempts, then a dead-letter state with a replay endpoint that resets attempts. Successes are deliberately not requeueable — replaying one would duplicate a side effect at the receiver, and the API returns 409 to say so. Each delivery is HMAC-signed per endpoint so the receiver can verify authenticity independent of transport.</p>
+  <p>Retries with a dead end: 1m → 5m → 30m → 2h → 12h, five attempts, then the delivery goes to a dead-letter state with a replay endpoint to bring it back. Successes can't be replayed on purpose — replaying one would poke the receiver's side effects twice, so the API answers 409. Every delivery is HMAC-signed per endpoint, so the receiver can verify it independently of whatever the network did to it.</p>
 
   <h2>What I'd change</h2>
   <p class="metaline">Update 27 Sep 2026: the three gaps named below are since closed — per-tenant API keys, Alembic migrations, and a Next.js operator dashboard all exist now. The <a href="../projects/hookflow.html">case study</a> is current; what follows is the original note.</p>
-  <p>The failure I keep thinking about is scope: there is still no multi-tenant auth — endpoint secrets authenticate receivers, not producers. Anyone with network access can register endpoints. That is documented, not hidden, and per-tenant API keys are the next change. After that: Alembic (currently <code>create_all</code>), Postgres + concurrent load numbers, and a Grafana dashboard on <code>/metrics</code> and queue depth. A portfolio project earns trust by stating its threat model plainly.</p>
+  <p>The gap that bothered me most was scope: no multi-tenant auth. Endpoint secrets authenticated receivers, not producers — anyone with network access could register endpoints. I wrote that down instead of hiding it, and per-tenant API keys were the next change. After that: Alembic (it was <code>create_all</code> at the time), real Postgres load numbers, and a dashboard on <code>/metrics</code>. A side project earns trust by stating its threat model plainly, I think — including the parts that are embarrassing.</p>
 
   <p><a href="https://github.com/sajadinmaker/hookflow">HookFlow is available on GitHub</a>, with the full case study at <a href="../projects/hookflow.html">projects/hookflow</a>.</p>
 

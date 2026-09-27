@@ -28,9 +28,7 @@
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
     <a href="../writing.html">Writing</a>
-    <a href="../engineering.html">Engineering</a>
-    <a href="../ai.html">AI</a>
-    <a href="../now.html">Now</a>
+    <a href="../about.html">About</a>
   </nav>
 </header>
 
@@ -45,21 +43,23 @@
     <p><em>Two workers can observe the same pending delivery. The claim has to be atomic.</em></p>
   </header>
 
-  <p>HookFlow's first version had one worker, so delivery correctness was trivially true: poll due rows, POST, settle. The moment a second worker exists, "poll due rows" becomes a race — both workers can read the same free row before either writes. I fixed it with a claim instead of a lock held across the HTTP call.</p>
+  <p>HookFlow started with one worker, and life was simple: grab due rows, POST them, mark them done. One worker can't race itself. Then I added a second worker, and "grab due rows" quietly became a lie — both workers could read the same free row in the gap before either wrote. Nothing fails loudly. You just send someone's webhook twice, and find out from them. That's the kind of bug that makes you add a second worker very carefully.</p>
+
+  <p>The fix wasn't a lock held across the HTTP call (imagine holding a database lock while waiting on a customer's slow server — no). It was a claim: mark the rows yours in one indivisible step, then go do the slow work knowing nobody else will touch them.</p>
 
   <h2>The mechanism</h2>
-  <p><code>claim_due_deliveries</code> takes ownership in a single <code>UPDATE</code> whose subquery excludes rows already claimed under a live lease. The database serialises the two racers, and the loser's subquery is re-evaluated against the winner's committed rows — it simply finds fewer candidates. A plain SELECT-then-UPDATE would not be safe. On PostgreSQL the subquery additionally uses <code>FOR UPDATE SKIP LOCKED</code> so N workers never queue behind each other (SQLite has no row locks but serialises writers anyway). Each claim carries a token plus a 60-second lease:</p>
+  <p><code>claim_due_deliveries</code> takes ownership with a single <code>UPDATE</code> whose subquery skips anything already claimed under a live lease. The database lines the two racers up, and the loser simply finds fewer rows left — its subquery runs against the winner's already-committed changes. A SELECT followed by an UPDATE could never promise that. On PostgreSQL the subquery also takes <code>FOR UPDATE SKIP LOCKED</code>, so workers never queue up behind each other (SQLite has no row locks, but it lines writers up on its own). Every claim carries a token and a 60-second lease:</p>
   <ul>
-    <li>A worker settles a row only while it holds the token; success releases the claim.</li>
-    <li>A crashed worker's rows become claimable again once the lease expires — stuck rows are impossible by construction, and a sweeper frees stale claims explicitly.</li>
-    <li>Rate-limited deliveries are settled back without a claim so they are never stranded.</li>
+    <li>A worker only settles rows it still holds the token for — and a successful settle hands the claim straight back.</li>
+    <li>If a worker dies mid-delivery, its rows unlock themselves when the lease runs out. Stuck rows are impossible by construction, and a sweeper tidies up the stale claims.</li>
+    <li>Rate-limited deliveries go back without a claim, so they wait their turn instead of getting stranded.</li>
   </ul>
 
   <h2>The test that matters</h2>
-  <p><code>test_concurrent_claimers_receive_disjoint_rows</code> drives real overlapping claimers and asserts disjoint claim sets — zero double delivery. Around it: lease expiry makes rows claimable again, settling releases the claim, the sweeper frees only stale rows, and unclaimed mode still selects everything for the single-worker case where claiming would be pure overhead.</p>
+  <p><code>test_concurrent_claimers_receive_disjoint_rows</code> — the name is the whole story. It points real, overlapping workers at the same rows and demands disjoint sets back: zero double delivery. Around it, smaller tests pin down the rest: expired leases become claimable again, the sweeper only frees stale rows, settling releases the claim, and single-worker mode skips claiming entirely (it would be pure overhead when nobody can race you).</p>
 
   <h2>What I kept honest</h2>
-  <p>The delivery claim is safe across replicas; the rate limiter is not when Redis is off — per-process fallback is single-replica only, stated in the README limitations. The claim tests run against SQLite; the <code>SKIP LOCKED</code> path is PostgreSQL-only by dialect check. I cite the mechanism and the tests, not a Postgres concurrency benchmark I haven't run.</p>
+  <p>Two things I won't claim. First: the replica story is split — the delivery claim is safe across replicas, but the rate limiter falls back to per-process memory without Redis, and that's single-replica only. It's in the README limitations, not the fine print. Second: these claim tests run on SQLite; the <code>SKIP LOCKED</code> branch only fires on PostgreSQL. So I talk about the mechanism and the tests — not a Postgres concurrency benchmark I haven't run. Someday, with a real load rig. Not today.</p>
 
   <p><a href="https://github.com/sajadinmaker/hookflow">HookFlow is available on GitHub</a>, with the full case study at <a href="../projects/hookflow.html">projects/hookflow</a>.</p>
 

@@ -28,9 +28,7 @@
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
     <a href="../writing.html">Writing</a>
-    <a href="../engineering.html">Engineering</a>
-    <a href="../ai.html">AI</a>
-    <a href="../now.html">Now</a>
+    <a href="../about.html">About</a>
   </nav>
 </header>
 
@@ -45,19 +43,19 @@
     <p><em>A small database project about transparency, persistence, and AI memory.</em></p>
   </header>
 
-  <p>Most AI applications hide memory behind a managed database or a hosted vector service. That is convenient, but it can make the system difficult to inspect when something goes wrong. I built neuDB to understand the underlying pieces directly: how records are persisted, how writes remain safe after a failure, and how semantic retrieval fits into an ordinary data model.</p>
+  <p>Most AI apps stash memory behind a managed database or some hosted vector service. Convenient — until something goes wrong at 1am and you're staring at a black box, wondering what the agent actually remembered. I got tired of that feeling, so I built neuDB: a tiny database where I could see every single piece. How records get saved, how writes survive a crash, how semantic search fits into a normal data model. No magic, just files I can open.</p>
 
-  <p>neuDB stores each table as a human-readable JSON file. A record receives a UUID, and the core engine supports insertion, filtering, updating, deletion, and text search. Writes go through a temporary file, <code>fsync</code>, and atomic replacement. Per-file locks protect concurrent threads inside the process. The design is intentionally modest, but every decision is visible and easy to debug.</p>
+  <p>Each table is one human-readable JSON file. Every record gets a UUID, and the engine does the basics: insert, filter, update, delete, text search. Writes go through a temp file, <code>fsync</code>, then an atomic swap — so a crash leaves you with the old file or the new file, never half a file. Threads in the same process take turns via per-file locks. It's deliberately modest. But you can <code>cat</code> any of it, and that was the whole point.</p>
 
-  <h2>The bug the tests caught</h2>
-  <p>When I added concurrency tests, my first design swept stray temp files on every table open — and the new test immediately broke it: the sweep deleted a live writer's temp file mid-write, failing its atomic rename. Cleanup-on-open is wrong under concurrency. Sweeping is now explicit maintenance with an age threshold, and the incident is documented in <code>docs/recovery.md</code>. That sequence — write the test, watch it catch a real race, fix the design — is the most valuable thing the project taught me.</p>
+  <h2>The bug my tests caught</h2>
+  <p>This is my favourite part. When I added concurrency tests, my first design cleaned up stray temp files every time a table opened — sounded tidy. The new test broke it immediately: the cleanup deleted another writer's temp file mid-write, and its atomic rename blew up with a <code>FileNotFoundError</code>. My tidy design was the bug. Cleanup-on-open is just wrong when two writers exist. Now sweeping is explicit maintenance with an age threshold, and the whole incident lives in <code>docs/recovery.md</code>. Honestly? Watching my own test catch my own race felt better than shipping the feature. That loop — write the test, watch it catch something real, fix the design — taught me more than the database did.</p>
 
   <h2>What I measured</h2>
-  <p>Benchmarks via <code>benchmarks/bench.py</code>: 138 inserts/s (p95 13.7ms) at 2,000 rows, falling to 56/s (p95 34.4ms) at 5,000 rows — O(N) writes confirmed, since every write rewrites the whole file. Threaded writers (4×100) lose nothing: 400/400 rows. The table is the deliverable: it says exactly where this design stops being viable (~10K rows per table), which makes the next design concrete instead of theoretical.</p>
+  <p>Numbers from <code>benchmarks/bench.py</code>, because feelings aren't benchmarks: 138 inserts a second (p95 13.7ms) at 2,000 rows, sliding to 56/s (p95 34.4ms) at 5,000 rows. Every write rewrites the whole file, so O(N) cost confirmed by measurement, not theory. Four threaded writers doing 100 rows each lost nothing: 400/400. That table is the real deliverable, I think — it tells you exactly where this design stops working (don't go past ~10K rows a table), which makes the *next* design concrete instead of hand-wavy.</p>
 
-  <p>The AI layer adds optional embeddings to message records. Semantic search uses cosine similarity, while text search remains available when an embedding model is not installed. On top of that, the agent retrieves relevant messages before calling an LLM and stores the new exchange afterward. The result is a small long-term memory loop that can run locally with Ollama or connect to an OpenAI-compatible provider.</p>
+  <p>The AI layer adds optional embeddings to message records. Semantic search runs on cosine similarity, and plain text search still works when no embedding model is installed. On top of that, an agent pulls up relevant old messages before calling an LLM and stores the new exchange after. It's a small long-term memory loop — runs locally with Ollama or talks to any OpenAI-compatible provider.</p>
 
-  <p>The project also clarified its limits. JSON files and linear scans are appropriate for a local tool, not a high-volume service. A production version would need indexes, transactions, process-safe coordination, pagination, and an approximate nearest-neighbour vector index. Those limitations are part of the value of the project: a simple implementation makes the next engineering problem concrete.</p>
+  <p>And the limits are the point, not the fine print. JSON files and linear scans are right for a local tool and wrong for a busy service. A production version would need indexes, transactions, coordination across processes, pagination, and a proper vector index. Writing those down is what makes the project useful: a simple thing that shows you exactly which hard problem to solve next.</p>
 
   <p><a href="https://github.com/sajadinmaker/neudb">neuDB is available on GitHub</a> and is published on <a href="https://pypi.org/project/neudb/">PyPI</a>, with the full case study at <a href="../projects/neudb.html">projects/neudb</a>.</p>
 
