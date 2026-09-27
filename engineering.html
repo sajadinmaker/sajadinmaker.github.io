@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121212">
+<title>Engineering · Sajad — Software Engineer</title>
+<meta name="description" content="Architecture notes, correctness work, and measured numbers from things I built.">
+<meta name="author" content="Abdulla Sajad">
+<link rel="canonical" href="https://sajadinmaker.github.io/engineering.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Abdulla Sajad">
+<meta property="og:title" content="Engineering · Sajad — Software Engineer">
+<meta property="og:description" content="Architecture, correctness, and measured numbers.">
+<meta property="og:url" content="https://sajadinmaker.github.io/engineering.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <p class="site-title"><a href="./">Sajad</a></p>
+  <nav aria-label="Primary">
+    <a href="./projects.html">Projects</a>
+    <a href="./writing.html">Writing</a>
+    <a href="./engineering.html">Engineering</a>
+    <a href="./ai.html">AI</a>
+    <a href="./now.html">Now</a>
+  </nav>
+</header>
+
+<main id="main">
+<h1>Engineering</h1>
+
+<p>Things here don't fit on the homepage: architecture, correctness work, and numbers I actually measured. No adjectives — mechanisms and tests.</p>
+
+<h2>Concurrency</h2>
+<ul class="plain">
+<li><a href="./writing/preventing-double-delivery-hookflow.html">Preventing double delivery under concurrent workers</a>
+  <span class="meta">HookFlow — atomic claims, leases, disjoint claim sets, zero double delivery.</span></li>
+</ul>
+
+<h2>Architecture</h2>
+<pre>HOOKFLOW
+
+Client
+  ↓
+FastAPI
+  ↓
+PostgreSQL
+  ↓
+Atomic claim + lease
+  ↓
+Worker
+  ├── success
+  ├── retry
+  └── DLQ</pre>
+<pre>LEXORA
+
+Document
+  ↓
+Ingestion
+  ↓
+Celery
+  ↓
+Chunking
+  ↓
+Embeddings
+  ↓
+PostgreSQL + per-user FAISS
+  ↓
+Retrieval + rerank
+  ↓
+LLM
+  ↓
+Citations</pre>
+<p class="muted small">Lexora's pgvector migration is planned; per-user FAISS is the current, documented trade-off.</p>
+
+<h2>Measured numbers</h2>
+<ul>
+<li>HookFlow: 73 tests, ~93% line coverage, 5 CI jobs (schema, Postgres, tests, docker-build, dashboard).</li>
+<li>HookFlow ingest: ~39 rps at p95 29ms for 1KB payloads (TestClient + SQLite — the transaction, not production Postgres).</li>
+<li>Lexora: 35 tests; retrieval recall probe 3/3 at top-3.</li>
+<li>neuDB: 32 tests; per-insert cost grows with file size (O(N) confirmed) — do not use past ~10K rows per table.</li>
+</ul>
+<p>Full context lives in the <a href="./projects.html">project case studies</a>.</p>
+
+<h2>Technical notes</h2>
+<ul class="plain">
+<li><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a>
+  <span class="meta">14 Sep 2026 — delivery as a storage problem.</span></li>
+<li><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a>
+  <span class="meta">24 Jul 2026 — what writing a tiny database taught me about failure.</span></li>
+</ul>
+  </main>
+
+  <footer>
+  <p>© <span id="year">2026</span> Sajad · <a href="https://github.com/sajadinmaker">GitHub</a> · <a href="https://www.linkedin.com/in/abdullasajad">LinkedIn</a></p>
+</footer>
+
+<script src="./script.js" defer></script>
+</body>
+</html>

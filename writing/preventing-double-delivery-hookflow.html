@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121212">
+<title>Preventing double delivery under concurrent workers · Abdulla Sajad</title>
+<meta name="description" content="How HookFlow claims deliveries atomically so concurrent workers never send the same webhook twice.">
+<meta name="author" content="Abdulla Sajad">
+<link rel="canonical" href="https://sajadinmaker.github.io/writing/preventing-double-delivery-hookflow.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Abdulla Sajad">
+<meta property="og:title" content="Preventing double delivery under concurrent workers">
+<meta property="og:description" content="Atomic claims, leases, and the test that drives real overlapping workers.">
+<meta property="og:url" content="https://sajadinmaker.github.io/writing/preventing-double-delivery-hookflow.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Preventing double delivery under concurrent workers">
+<meta name="twitter:description" content="Atomic claims, leases, and the test that drives real overlapping workers.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <p class="site-title"><a href="../">Sajad</a></p>
+  <nav aria-label="Primary">
+    <a href="../projects.html">Projects</a>
+    <a href="../writing.html">Writing</a>
+    <a href="../engineering.html">Engineering</a>
+    <a href="../ai.html">AI</a>
+    <a href="../now.html">Now</a>
+  </nav>
+</header>
+
+
+
+<main id="main">
+<div>
+<article>
+  <header>
+    <p><time datetime="2026-09-27">2026-09-27</time></p>
+    <h1>Preventing double delivery under concurrent workers</h1>
+    <p><em>Two workers can observe the same pending delivery. The claim has to be atomic.</em></p>
+  </header>
+
+  <p>HookFlow's first version had one worker, so delivery correctness was trivially true: poll due rows, POST, settle. The moment a second worker exists, "poll due rows" becomes a race — both workers can read the same free row before either writes. I fixed it with a claim instead of a lock held across the HTTP call.</p>
+
+  <h2>The mechanism</h2>
+  <p><code>claim_due_deliveries</code> takes ownership in a single <code>UPDATE</code> whose subquery excludes rows already claimed under a live lease. The database serialises the two racers, and the loser's subquery is re-evaluated against the winner's committed rows — it simply finds fewer candidates. A plain SELECT-then-UPDATE would not be safe. On PostgreSQL the subquery additionally uses <code>FOR UPDATE SKIP LOCKED</code> so N workers never queue behind each other (SQLite has no row locks but serialises writers anyway). Each claim carries a token plus a 60-second lease:</p>
+  <ul>
+    <li>A worker settles a row only while it holds the token; success releases the claim.</li>
+    <li>A crashed worker's rows become claimable again once the lease expires — stuck rows are impossible by construction, and a sweeper frees stale claims explicitly.</li>
+    <li>Rate-limited deliveries are settled back without a claim so they are never stranded.</li>
+  </ul>
+
+  <h2>The test that matters</h2>
+  <p><code>test_concurrent_claimers_receive_disjoint_rows</code> drives real overlapping claimers and asserts disjoint claim sets — zero double delivery. Around it: lease expiry makes rows claimable again, settling releases the claim, the sweeper frees only stale rows, and unclaimed mode still selects everything for the single-worker case where claiming would be pure overhead.</p>
+
+  <h2>What I kept honest</h2>
+  <p>The delivery claim is safe across replicas; the rate limiter is not when Redis is off — per-process fallback is single-replica only, stated in the README limitations. The claim tests run against SQLite; the <code>SKIP LOCKED</code> path is PostgreSQL-only by dialect check. I cite the mechanism and the tests, not a Postgres concurrency benchmark I haven't run.</p>
+
+  <p><a href="https://github.com/sajadinmaker/hookflow">HookFlow is available on GitHub</a>, with the full case study at <a href="../projects/hookflow.html">projects/hookflow</a>.</p>
+
+  <p class="back-link"><a href="../writing.html">← writing</a></p>
+</article>
+</div>
+  </main>
+
+  <footer>
+  <p>© <span id="year">2026</span> Sajad · <a href="https://github.com/sajadinmaker">GitHub</a> · <a href="https://www.linkedin.com/in/abdullasajad">LinkedIn</a></p>
+</footer>
+
+
+
+<script src="../script.js" defer></script>
+</body>
+</html>

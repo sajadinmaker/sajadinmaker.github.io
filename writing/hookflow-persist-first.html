@@ -28,6 +28,8 @@
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
     <a href="../writing.html">Writing</a>
+    <a href="../engineering.html">Engineering</a>
+    <a href="../ai.html">AI</a>
     <a href="../now.html">Now</a>
   </nav>
 </header>
@@ -59,6 +61,7 @@
   <p>Backoff with a dead end: 1m → 5m → 30m → 2h → 12h across 5 attempts, then a dead-letter state with a replay endpoint that resets attempts. Successes are deliberately not requeueable — replaying one would duplicate a side effect at the receiver, and the API returns 409 to say so. Each delivery is HMAC-signed per endpoint so the receiver can verify authenticity independent of transport.</p>
 
   <h2>What I'd change</h2>
+  <p class="metaline">Update 27 Sep 2026: the three gaps named below are since closed — per-tenant API keys, Alembic migrations, and a Next.js operator dashboard all exist now. The <a href="../projects/hookflow.html">case study</a> is current; what follows is the original note.</p>
   <p>The failure I keep thinking about is scope: there is still no multi-tenant auth — endpoint secrets authenticate receivers, not producers. Anyone with network access can register endpoints. That is documented, not hidden, and per-tenant API keys are the next change. After that: Alembic (currently <code>create_all</code>), Postgres + concurrent load numbers, and a Grafana dashboard on <code>/metrics</code> and queue depth. A portfolio project earns trust by stating its threat model plainly.</p>
 
   <p><a href="https://github.com/sajadinmaker/hookflow">HookFlow is available on GitHub</a>, with the full case study at <a href="../projects/hookflow.html">projects/hookflow</a>.</p>
