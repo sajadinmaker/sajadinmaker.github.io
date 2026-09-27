@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Abdulla Sajad</title>
-    <link>https://neuralbroker.github.io/</link>
+    <link>https://sajadinmaker.github.io/</link>
     <description>Notes on backend systems and applied AI.</description>
     <language>en</language>
     <lastBuildDate>Sun, 14 Sep 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://neuralbroker.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://sajadinmaker.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>HookFlow: accept first, deliver later</title>
-      <link>https://neuralbroker.github.io/writing/hookflow-persist-first.html</link>
-      <guid>https://neuralbroker.github.io/writing/hookflow-persist-first.html</guid>
+      <link>https://sajadinmaker.github.io/writing/hookflow-persist-first.html</link>
+      <guid>https://sajadinmaker.github.io/writing/hookflow-persist-first.html</guid>
       <pubDate>Sun, 14 Sep 2026 00:00:00 +0000</pubDate>
       <description>Why webhook delivery is a persistence problem, not a POST problem.</description>
     </item>
     <item>
       <title>Why I built neuDB</title>
-      <link>https://neuralbroker.github.io/writing/why-i-built-neudb.html</link>
-      <guid>https://neuralbroker.github.io/writing/why-i-built-neudb.html</guid>
+      <link>https://sajadinmaker.github.io/writing/why-i-built-neudb.html</link>
+      <guid>https://sajadinmaker.github.io/writing/why-i-built-neudb.html</guid>
       <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
       <description>A short note on designing a transparent local database for AI memory.</description>
     </item>
