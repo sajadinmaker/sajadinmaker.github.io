@@ -9,6 +9,7 @@
 <meta name="description" content="How HookFlow claims deliveries atomically so concurrent workers never send the same webhook twice.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/writing/preventing-double-delivery-hookflow.html">
+<link rel="alternate" type="application/rss+xml" title="Abdulla Sajad" href="https://sajadinmaker.github.io/feed.xml">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Abdulla Sajad">
 <meta property="og:title" content="Preventing double delivery under concurrent workers">
@@ -38,7 +39,7 @@
 <div>
 <article>
   <header>
-    <p><time datetime="2026-09-27">2026-09-27</time></p>
+    <p><time datetime="2026-09-27">2026-09-27</time> · 2 min read</p>
     <h1>Preventing double delivery under concurrent workers</h1>
     <p><em>Two workers can observe the same pending delivery. The claim has to be atomic.</em></p>
   </header>
@@ -63,7 +64,10 @@
 
   <p><a href="https://github.com/sajadinmaker/hookflow">HookFlow is available on GitHub</a>, with the full case study at <a href="../projects/hookflow.html">projects/hookflow</a>.</p>
 
-  <p class="back-link"><a href="../writing.html">← writing</a></p>
+  <p class="back-link"><a href="../writing.html">← writing</a> · <a href="../feed.xml">RSS</a></p>
+  <nav class="postnav" aria-label="Neighbouring posts">
+    <p><span class="meta">older —</span> <a href="./hookflow-persist-first.html">HookFlow: accept first, deliver later</a></p>
+  </nav>
 </article>
 </div>
   </main>

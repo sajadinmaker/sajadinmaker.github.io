@@ -186,12 +186,50 @@ ul.plain li::before {
 ul.plain li:hover::before { background: var(--link); transform: scale(1.3); }
 ul.plain .meta { display: block; font-size: 0.84rem; color: var(--muted); }
 
+/* Blog archive — Bear-style rows: fixed date column, title, reading time right. */
+ul.posts { list-style: none; padding-left: 0; }
+ul.posts li { margin-bottom: 1.05rem; }
+ul.posts .postrow { display: flex; align-items: baseline; gap: 0.7rem; }
+ul.posts .pdate {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  flex: 0 0 4.6rem;
+}
+ul.posts .ptime { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-left: auto; opacity: 0.85; }
+ul.posts .meta { display: block; font-size: 0.84rem; color: var(--muted); margin-left: 5.3rem; margin-top: 0.15rem; }
+h2.year {
+  font-family: var(--mono);
+  font-weight: normal;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+@media (max-width: 640px) {
+  ul.posts .meta { margin-left: 0; }
+  /* date and duration share a meta row, title gets the full line */
+  ul.posts .postrow { flex-wrap: wrap; }
+  ul.posts .pdate { order: 1; }
+  ul.posts .ptime { order: 2; flex-shrink: 0; }
+  ul.posts .postrow a { order: 3; flex-basis: 100%; }
+}
+
 main article + article { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .breadcrumb, .back-link, .metaline { font-size: 0.86rem; color: var(--muted); }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
 main article > header { margin-bottom: 0.5rem; }
 main article > header p:first-child { color: var(--muted); font-size: 0.86rem; }
 .back-link { margin-top: 2rem; }
+.postnav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+.postnav p { margin: 0; }
 
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
