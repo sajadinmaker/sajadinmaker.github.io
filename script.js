@@ -89,4 +89,164 @@
 
     document.body.appendChild(status);
   }
+
+  /* Homepage terminal — a tiny, fake-but-honest command loop.
+     No JS: the block stays a readable quick-facts card with an inert input. */
+  var term = document.querySelector('.term');
+  if (term) {
+    var outEl = term.querySelector('.term-out');
+    var input = term.querySelector('.term-in');
+    if (outEl && input) {
+      var LINKS = {
+        'hookflow': './projects/hookflow.html',
+        'lexora': './projects/lexora.html',
+        'neudb': './projects/neudb.html',
+        'esencelab': './projects/esencelab.html',
+        'vpnbox': 'https://github.com/sajadinmaker/vpnbox',
+        'arenas': 'https://github.com/sajadinmaker/Arenas'
+      };
+      var NAMES = Object.keys(LINKS).join('  ');
+      var HELP = [
+        'help        this list',
+        'whoami      the short version',
+        'ls ~/work   what I shipped',
+        'open <name> go there — try: open hookflow',
+        'read        writing, newest first',
+        'status      current state',
+        'contact     best way in',
+        'clear       tidy up',
+        'sudo        for the bold',
+        'coffee      probably overdue'
+      ];
+      var READ = [
+        'preventing double delivery under concurrent workers — 27 Sep 2026',
+        'hookflow: accept first, deliver later — 14 Sep 2026',
+        'why I built neuDB — 24 Jul 2026'
+      ];
+
+      var MAX_DYN = 60;
+      var hist = [], hi = 0;
+
+      /* the input hugs its content so the block cursor sits right after the text */
+      function fitInput() {
+        input.setAttribute('size', String(input.value.length ? input.value.length + 1 : 10));
+      }
+      input.addEventListener('input', fitInput);
+      fitInput();
+
+      function push(p) {
+        outEl.appendChild(p);
+        var dyn = outEl.querySelectorAll('p.dyn');
+        if (dyn.length > MAX_DYN) outEl.removeChild(dyn[0]);
+      }
+      function echo(cmd) {
+        var p = document.createElement('p');
+        p.className = 'dyn';
+        var s = document.createElement('span');
+        s.className = 'prompt';
+        s.textContent = '$ ';
+        p.appendChild(s);
+        p.appendChild(document.createTextNode(cmd));
+        push(p);
+      }
+      function out(text) {
+        var p = document.createElement('p');
+        p.className = 'dyn out';
+        p.textContent = text;
+        push(p);
+      }
+      function outDot(text) {
+        var p = document.createElement('p');
+        p.className = 'dyn out';
+        var d = document.createElement('span');
+        d.className = 'dot';
+        d.setAttribute('aria-hidden', 'true');
+        p.appendChild(d);
+        p.appendChild(document.createTextNode(text));
+        push(p);
+      }
+
+      function run(raw) {
+        var cmd = raw.trim();
+        if (!cmd) return;
+        echo(cmd);
+        var parts = cmd.split(/\s+/);
+        var name = parts[0].toLowerCase();
+        switch (name) {
+          case 'help':
+            HELP.forEach(out);
+            break;
+          case 'whoami':
+            out('backend engineer — python, postgres, redis');
+            break;
+          case 'ls':
+            var t = parts[1] || '~/work';
+            if (t === '~/work' || t === '~' || t === '.') {
+              out('hookflow/  lexora/  neudb/  esencelab/  vpnbox/  arenas/');
+            } else {
+              out('ls: ' + t + ': not here — try ls ~/work');
+            }
+            break;
+          case 'open':
+            var target = (parts[1] || '').toLowerCase();
+            if (LINKS[target]) {
+              out('opening ' + target + ' …');
+              window.setTimeout(function () { window.location.href = LINKS[target]; }, 350);
+            } else {
+              out('open which? names: ' + NAMES);
+            }
+            break;
+          case 'read':
+            READ.forEach(out);
+            break;
+          case 'status':
+            out('open to backend & applied-AI work — vpnbox beta shipped, arenas in public');
+            break;
+          case 'contact':
+            out('abdullasajad01@gmail.com — email works best');
+            break;
+          case 'sudo':
+            out('nice try — the vpn needs sudo, not this site');
+            break;
+          case 'coffee':
+            out('418 — I am a teapot');
+            break;
+          case 'clear':
+            Array.prototype.slice.call(outEl.querySelectorAll('p.dyn')).forEach(function (n) {
+              outEl.removeChild(n);
+            });
+            break;
+          default:
+            out(name + ": command not found — 'help' lists a few");
+        }
+      }
+
+      term.addEventListener('click', function () {
+        var sel = window.getSelection && window.getSelection();
+        if (sel && String(sel)) return; // let people select text
+        input.focus();
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var v = input.value;
+          run(v);
+          if (v.trim()) { hist.push(v); hi = hist.length; }
+          input.value = '';
+          fitInput();
+        } else if (e.key === 'ArrowUp' && hist.length) {
+          e.preventDefault();
+          if (hi > 0) hi--;
+          input.value = hist[hi] || '';
+          fitInput();
+        } else if (e.key === 'ArrowDown' && hist.length) {
+          e.preventDefault();
+          if (hi < hist.length - 1) hi++;
+          else hi = hist.length;
+          input.value = hi < hist.length ? hist[hi] : '';
+          fitInput();
+        }
+      });
+    }
+  }
 })();

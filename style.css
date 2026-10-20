@@ -323,23 +323,68 @@ nav { font-family: var(--mono); font-size: 0.88rem; }
 }
 @keyframes cursor-blink { 50% { opacity: 0; } }
 
-/* Homepage $ block — a real element, three lines, no decoration. */
-pre.term {
+/* Homepage $ block — static quick facts, upgraded in place when JS runs. */
+.term {
   background: var(--code-bg);
-  background-image: none;
   border: 1px solid var(--border);
   border-left: 3px solid var(--link);
   border-radius: 3px;
   font-family: var(--mono);
   font-size: 0.8rem;
-  line-height: 1.75;
+  line-height: 1.8;
   padding: 0.75rem 0.95rem;
   margin-bottom: 1.2rem;
+  overflow-wrap: break-word;
+  transition: border-color var(--dur) var(--ease);
 }
-pre.term .muted { color: var(--muted); }
+.term:focus-within { border-color: var(--link); }
+.term p { margin: 0; }
+.term-out p { white-space: pre-wrap; } /* keep column spacing; container stays normal so source newlines collapse */
+.term .prompt { color: var(--muted); }
+.term .out { color: var(--text); margin-bottom: 0.3rem; }
+.term-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+}
+.term-row label { cursor: text; flex-shrink: 0; }
+.term-in {
+  flex: 0 1 auto; /* width follows the size attribute so the block cursor hugs the text */
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--text);
+  caret-color: var(--text);
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 1rem; /* 16px+ — avoids iOS focus zoom */
+}
+.term-in:focus { outline: none; }
+.term-in::placeholder { color: var(--muted); opacity: 0.7; }
+.term-in:not(:placeholder-shown) ~ .cursor { opacity: 0; }
+
+/* Availability dot — the one colour that means "available". */
+.dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #4ade80;
+  margin-right: 0.55rem;
+  vertical-align: -0.02em;
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.35);
+  animation: dot-pulse 2.4s var(--ease) infinite;
+}
+@keyframes dot-pulse {
+  70% { box-shadow: 0 0 0 0.45rem rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .cursor { animation: none; }
+  .dot { animation: none; }
 }
 
 @media print {
