@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0b0b14">
+<meta name="theme-color" content="#121212">
 <title>Projects · Sajad — Software Engineer</title>
-<meta name="description" content="Selected work: HookFlow, Lexora, vpnbox, neuDB, Arenas, EsenceLab — backend systems and applied AI, each with a write-up and source code.">
+<meta name="description" content="Selected work: HookFlow, Lexora, neuDB, EsenceLab, vpnbox, Arenas — backend systems and applied AI.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/projects.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Abdulla Sajad">
 <meta property="og:title" content="Projects · Sajad — Software Engineer">
-<meta property="og:description" content="Six systems — each with a write-up and the code on GitHub.">
+<meta property="og:description" content="Things I've built recently, with write-ups and source code.">
 <meta property="og:url" content="https://sajadinmaker.github.io/projects.html">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./style.css">
 </head>
-<body class="wide">
+<body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <p class="site-title"><a href="./"><span class="mark" aria-hidden="true">s</span>Sajad</a></p>
+  <p class="site-title"><a href="./">Sajad</a></p>
   <nav aria-label="Primary">
     <a href="./projects.html">Projects</a>
     <a href="./writing.html">Writing</a>
@@ -31,65 +31,46 @@
 </header>
 
 <main id="main">
-  <section class="hero" style="padding-top:1rem">
-  <p class="eyebrow" data-reveal><span class="grad" style="font-weight:800">Projects</span></p>
-  <h1 data-reveal>Six systems, <span class="grad">all shipped</span>.</h1>
-  <p class="hero__lede" data-reveal>Backend systems and applied AI. Each one has a write-up with real mechanisms and measured numbers, and the code is on GitHub.</p>
-  </section>
+<h1>Projects</h1>
 
-  <div class="grid grid--2" style="margin-top:1.5rem">
+<p>Selected work — backend systems and applied AI. Each one has a write-up, and the code is on GitHub.</p>
 
-    <article class="card card--featured" data-reveal>
-      <div class="card__top"><span class="card__num">01</span><span class="tag">Featured</span></div>
-      <h3><a href="./projects/hookflow.html">HookFlow</a></h3>
-      <p class="card__desc">Webhooks that never get lost — persist-first ingest, atomic claims with leases, dead-letter recovery. Concurrent workers, zero double delivery, verified by test.</p>
-      <p class="card__stack"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span></p>
-      <p class="card__meta card__links"><a href="./projects/hookflow.html">Case study →</a><a href="https://github.com/sajadinmaker/hookflow">Source ↗</a><span class="small muted">73 tests · ~93% coverage · 5 CI jobs</span></p>
-    </article>
-
-    <article class="card card--featured" data-reveal>
-      <div class="card__top"><span class="card__num">02</span><span class="tag">Featured</span></div>
-      <h3><a href="./projects/lexora.html">Lexora</a></h3>
-      <p class="card__desc">Ask questions over your documents. Ingestion, retrieval with citations, SSE streaming, per-user isolation. The LLM call is the easy part — auth, jobs, isolation, retries are the system.</p>
-      <p class="card__stack"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span></p>
-      <p class="card__meta card__links"><a href="./projects/lexora.html">Case study →</a><a href="https://github.com/sajadinmaker/lexora-ai">Source ↗</a><span class="small muted">35 tests · eval probe 3/3</span></p>
-    </article>
-
-    <article class="card card--featured" data-reveal>
-      <div class="card__top"><span class="card__num">03</span><span class="tag">New</span></div>
-      <h3><a href="./projects/vpnbox.html">vpnbox</a></h3>
-      <p class="card__desc">A free Linux VPN with no account, no key, no payment — live VPN Gate servers ranked by real ping and speed, full-tunnel OpenVPN, leak-proof DNS, and 239 platform-office locations.</p>
-      <p class="card__stack"><span>Python</span><span>stdlib only</span><span>OpenVPN</span><span>Linux</span></p>
-      <p class="card__meta card__links"><a href="./projects/vpnbox.html">Read more →</a><a href="https://github.com/sajadinmaker/vpnbox">Source ↗</a><span class="small muted">v1.0.0-beta2 · one file</span></p>
-    </article>
-
-    <article class="card" data-reveal>
-      <div class="card__top"><span class="card__num">04</span></div>
-      <h3><a href="./projects/neudb.html">neuDB</a></h3>
-      <p class="card__desc">A tiny database in plain Python — one JSON file per table, crash-atomic writes, semantic search with text fallback. Honest benchmarks, published on PyPI.</p>
-      <p class="card__stack"><span>Python</span><span>PyPI</span></p>
-      <p class="card__meta card__links"><a href="./projects/neudb.html">Write-up →</a><a href="https://github.com/sajadinmaker/neudb">Source ↗</a><a href="https://pypi.org/project/neudb/">PyPI ↗</a><span class="small muted">32 tests</span></p>
-    </article>
-
-    <article class="card" data-reveal>
-      <div class="card__top"><span class="card__num">05</span><span class="tag">Early</span></div>
-      <h3><a href="./projects/arenas.html">Arenas</a></h3>
-      <p class="card__desc">Coding tournaments for AI agents — N agents attempt the same task on isolated forks, every attempt gets built, tested, benchmarked, scored, and a human picks the winner.</p>
-      <p class="card__stack"><span>TypeScript</span><span>Cloudflare Workers</span><span>Durable Objects</span></p>
-      <p class="card__meta card__links"><a href="./projects/arenas.html">Read more →</a><a href="https://github.com/sajadinmaker/Arenas">Source ↗</a><span class="small muted">building in public</span></p>
-    </article>
-
-    <article class="card" data-reveal>
-      <div class="card__top"><span class="card__num">06</span></div>
-      <h3><a href="./projects/esencelab.html">EsenceLab</a></h3>
-      <p class="card__desc">AI hiring platform — product UX, backend services, resume/job matching. Deterministic matching first, LLM optional, boundaries verified by an RBAC suite.</p>
-      <p class="card__stack"><span>TypeScript</span><span>Express</span><span>FastAPI</span><span>Next.js</span></p>
-      <p class="card__meta card__links"><a href="./projects/esencelab.html">Write-up →</a><a href="https://github.com/sajadinmaker/esencelab">Source ↗</a><span class="small muted">2nd prize, 30+ teams</span></p>
-    </article>
-
-  </div>
-
-  <p class="small" style="margin-top:1.6rem" data-reveal>Prefer the numbers? <a href="./engineering.html">Engineering notes</a> — architecture, correctness work, and what I measured. Or <a href="./ai.html">how the AI pieces fit</a>.</p>
+  <article>
+  <h3><a href="./projects/hookflow.html">01 · HookFlow</a> <span class="tag">Featured</span></h3>
+<p>Webhooks that never get lost — atomic claims, leases, dead-letter recovery. Concurrent workers, zero double delivery, verified by test.</p>
+<p class="small muted">Python, FastAPI, PostgreSQL, Redis · 73 tests, ~93% coverage, 5 CI jobs</p>
+<p><a href="./projects/hookflow.html">Case study</a> · <a href="https://github.com/sajadinmaker/hookflow">Source</a></p>
+</article>
+  <article>
+  <h3><a href="./projects/lexora.html">02 · Lexora</a> <span class="tag">Featured</span></h3>
+<p>Ask questions over your documents. The LLM call is the easy part — auth, jobs, isolation, retries are the system.</p>
+<p class="small muted">Python, FastAPI, PostgreSQL, Redis · 35 tests</p>
+<p><a href="./projects/lexora.html">Case study</a> · <a href="https://github.com/sajadinmaker/lexora-ai">Source</a></p>
+</article>
+  <article>
+  <h3><a href="./projects/neudb.html">03 · neuDB</a></h3>
+<p>A tiny database in plain Python. Crash-atomic writes, honest benchmarks, published on PyPI.</p>
+<p class="small muted">Python · 32 tests · <a href="https://pypi.org/project/neudb/">PyPI</a></p>
+<p><a href="./projects/neudb.html">Write-up</a> · <a href="https://github.com/sajadinmaker/neudb">Source</a> · <a href="https://pypi.org/project/neudb/">PyPI</a></p>
+</article>
+  <article>
+  <h3><a href="./projects/esencelab.html">04 · EsenceLab</a></h3>
+<p>AI hiring platform — product UX, backend services, resume/job matching.</p>
+<p class="small muted">TypeScript, Express, PostgreSQL</p>
+<p><a href="./projects/esencelab.html">Write-up</a> · <a href="https://github.com/sajadinmaker/esencelab">Source</a></p>
+</article>
+  <article>
+  <h3><a href="https://github.com/sajadinmaker/vpnbox">05 · vpnbox</a> <span class="tag">New</span></h3>
+<p>A free VPN for Linux, no accounts and no keys. It watches the volunteer-run VPN Gate relays, ranks what's actually alive by ping and speed, and tunnels you through OpenVPN with the DNS handled — one stdlib-only Python file.</p>
+<p class="small muted">Python 3.8+ (stdlib only) · OpenVPN · v1.0.0-beta2</p>
+<p><a href="https://github.com/sajadinmaker/vpnbox">Source</a></p>
+</article>
+  <article>
+  <h3><a href="https://github.com/sajadinmaker/Arenas">06 · Arenas</a></h3>
+<p>Coding tournaments for AI agents. Git assumes one author at a time; this is the opposite case — N agents attempt the same task on isolated forks, every attempt gets built, tested and scored, and a human picks the winner.</p>
+<p class="small muted">TypeScript · Cloudflare Workers · Durable Objects</p>
+<p><a href="https://github.com/sajadinmaker/Arenas">Source</a></p>
+</article>
   </main>
 
   <footer>

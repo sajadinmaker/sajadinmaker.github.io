@@ -1,9 +1,6 @@
-/* Progressive enhancement: footer year, active nav, sticky header state, copy email, scroll reveal. */
+/* Progressive enhancement: footer year, active nav, sticky header state, copy email. */
 (function () {
   'use strict';
-
-  /* Mark that JS is running so CSS can safely hide reveal targets. */
-  document.documentElement.classList.add('js');
 
   /* Footer year. */
   var y = document.getElementById('year');
@@ -48,29 +45,6 @@
       }
     }, { passive: true });
     syncHeader();
-  }
-
-  /* Scroll reveal: stagger [data-reveal] blocks as they enter the viewport.
-     CSS only hides them when html.js is set and motion is allowed. */
-  var revealables = document.querySelectorAll('[data-reveal]');
-  if (revealables.length) {
-    for (var r = 0; r < revealables.length; r++) {
-      revealables[r].style.setProperty('--reveal-i', Math.min(r, 6));
-    }
-    if ('IntersectionObserver' in window) {
-      var seen = new WeakSet();
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting || seen.has(entry.target)) return;
-          seen.add(entry.target);
-          entry.target.classList.add('is-in');
-          io.unobserve(entry.target);
-        });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-      revealables.forEach(function (el) { io.observe(el); });
-    } else {
-      revealables.forEach(function (el) { el.classList.add('is-in'); });
-    }
   }
 
   /* A copy button next to any link that displays a bare email address. */
