@@ -126,7 +126,6 @@
       ];
       var HELP = [
         'help        this list',
-        'whoami      the short version',
         'ls ~/work   what I shipped',
         'ls -la      the detailed listing',
         'open <name> go there — try: open hookflow',
@@ -194,9 +193,6 @@
         switch (name) {
           case 'help':
             HELP.forEach(out);
-            break;
-          case 'whoami':
-            out('backend engineer — python, postgres, redis');
             break;
           case 'ls':
             var args = parts.slice(1);
