@@ -105,11 +105,30 @@
         'vpnbox': 'https://github.com/sajadinmaker/vpnbox',
         'arenas': 'https://github.com/sajadinmaker/Arenas'
       };
-      var NAMES = Object.keys(LINKS).join('  ');
+      var PAGES = {
+        'projects': './projects.html',
+        'writing': './writing.html',
+        'about': './about.html',
+        'resume': './resume.html'
+      };
+      var NAMES = Object.keys(LINKS).concat(Object.keys(PAGES)).join('  ');
+      var LS_LONG = [
+        'total 9',
+        '-rw-r--r--   5.7k  2026-09-27  preventing-double-delivery.html',
+        '-rw-r--r--   6.6k  2026-09-14  hookflow-persist-first.html',
+        '-rw-r--r--   5.8k  2026-07-24  why-neudb.html',
+        '-rw-r--r--   9.2k  2026-09-20  hookflow.html',
+        '-rw-r--r--   6.5k  2026-09-20  lexora.html',
+        '-rw-r--r--   6.4k  2026-09-20  neudb.html',
+        '-rw-r--r--   6.3k  2026-09-20  esencelab.html',
+        'drwxr-xr-x         2026-09     vpnbox/',
+        'drwxr-xr-x         2026-10     arenas/'
+      ];
       var HELP = [
         'help        this list',
         'whoami      the short version',
         'ls ~/work   what I shipped',
+        'ls -la      the detailed listing',
         'open <name> go there — try: open hookflow',
         'read        writing, newest first',
         'status      current state',
@@ -180,18 +199,23 @@
             out('backend engineer — python, postgres, redis');
             break;
           case 'ls':
-            var t = parts[1] || '~/work';
-            if (t === '~/work' || t === '~' || t === '.') {
-              out('hookflow/  lexora/  neudb/  esencelab/  vpnbox/  arenas/');
-            } else {
+            var args = parts.slice(1);
+            var wantLong = args[0] === '-la' || args[0] === '-l';
+            var t = wantLong ? args[1] : args[0];
+            if (t && t !== '~/work' && t !== '~' && t !== '.') {
               out('ls: ' + t + ': not here — try ls ~/work');
+            } else if (wantLong) {
+              LS_LONG.forEach(out);
+            } else {
+              out('hookflow/  lexora/  neudb/  esencelab/  vpnbox/  arenas/');
             }
             break;
           case 'open':
             var target = (parts[1] || '').toLowerCase();
-            if (LINKS[target]) {
+            var dest = LINKS[target] || PAGES[target];
+            if (dest) {
               out('opening ' + target + ' …');
-              window.setTimeout(function () { window.location.href = LINKS[target]; }, 350);
+              window.setTimeout(function () { window.location.href = dest; }, 350);
             } else {
               out('open which? names: ' + NAMES);
             }

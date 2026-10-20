@@ -1,0 +1,14 @@
+/* group: person */
+name: Abdulla Sajad
+handle: sajadinmaker
+role: software engineer — backend systems & applied AI
+email: abdullasajad01@gmail.com
+
+/* group: site */
+language: english
+theme: dark, mono, terminal — minimal with the chrome up
+standards: html + css + es5 js. no frameworks was a choice, not a workaround.
+trackers: 0
+cookies: 0
+build: none (hand-edited)
+last update: 2026-10-20

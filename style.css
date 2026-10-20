@@ -216,6 +216,16 @@ h2.year {
 
 main article + article { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .breadcrumb, .back-link, .metaline { font-size: 0.86rem; color: var(--muted); }
+
+/* headings read like markdown source — you're viewing the code of this site in your head */
+h1::before, h2::before {
+  content: "# ";
+  color: var(--muted);
+  font-family: var(--mono);
+  font-weight: normal;
+  font-size: 0.7em;
+}
+h2::before { content: "## "; }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
 main article > header { margin-bottom: 0.5rem; }
 main article > header p:first-child { color: var(--muted); font-size: 0.86rem; }
@@ -315,6 +325,11 @@ footer {
   color: var(--muted);
 }
 footer p { margin-bottom: 0.3rem; }
+footer { font-family: var(--mono); font-size: 0.78rem; }
+footer .foot-note { color: var(--muted); opacity: 0.75; font-size: 0.72rem; }
+
+/* 404 — the one red on the whole site, spent on a segfault joke */
+.crash { font-family: var(--mono); font-size: 0.8rem; color: #ef4444; }
 
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--link);
