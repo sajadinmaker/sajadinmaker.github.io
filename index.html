@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#121212">
+<meta name="theme-color" content="#0b0b14">
 <title>Sajad — Software Engineer</title>
-<meta name="description" content="Sajad is a software engineer building backend systems first, then layering retrieval and AI on top: FastAPI, PostgreSQL, Redis, RAG, vector search.">
+<meta name="description" content="Sajad builds backend systems first (FastAPI, PostgreSQL, Redis), then layers retrieval and AI on top. Webhook infrastructure, a document-retrieval backend, a PyPI storage engine — with the numbers to back them up.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/">
 <link rel="alternate" type="application/rss+xml" title="Sajad" href="https://sajadinmaker.github.io/feed.xml">
@@ -15,9 +15,9 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sajad">
 <meta property="og:title" content="Sajad — Software Engineer">
-<meta property="og:description" content="Software engineer working on backend systems with Python.">
+<meta property="og:description" content="Backend systems and applied AI — built, measured, and written up.">
 <meta property="og:url" content="https://sajadinmaker.github.io/">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,6 +27,7 @@
   "email": "mailto:abdullasajad01@gmail.com",
   "jobTitle": "Software Engineer",
   "description": "Software engineer focused on backend systems, infrastructure, and applied AI.",
+  "knowsAbout": ["Python", "FastAPI", "PostgreSQL", "Redis", "RAG", "Vector Search", "TypeScript"],
   "sameAs": [
     "https://github.com/sajadinmaker",
     "https://www.linkedin.com/in/abdullasajad",
@@ -35,11 +36,11 @@
 }
 </script>
 </head>
-<body>
+<body class="wide">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <p class="site-title"><a href="./">Sajad</a></p>
+  <p class="site-title"><a href="./"><span class="mark" aria-hidden="true">s</span>Sajad</a></p>
   <nav aria-label="Primary">
     <a href="./projects.html">Projects</a>
     <a href="./writing.html">Writing</a>
@@ -48,45 +49,131 @@
 </header>
 
 <main id="main">
-  <h1>Hi, I'm Sajad.</h1>
-  <p><strong>Software Engineer — backend systems and AI infrastructure.</strong><br>
-  I build backend systems first (FastAPI, PostgreSQL, Redis), then layer retrieval and AI on top — open to work.</p>
-  <p><a href="https://github.com/sajadinmaker">GitHub</a> · <a href="https://www.linkedin.com/in/abdullasajad">LinkedIn</a> · <a href="mailto:abdullasajad01@gmail.com">Email</a> · <a href="./resume.pdf">Resume</a></p>
 
-  <h2>Focus</h2>
-  <p>Backend — Python, FastAPI, PostgreSQL, Redis, Docker<br>
-  Applied AI — RAG, embeddings, vector search, eval<br>
-  Product — TypeScript, Next.js, Express</p>
+  <section class="hero">
+    <p class="eyebrow" data-reveal><span class="pulse" aria-hidden="true"></span>Open to backend &amp; applied-AI work</p>
+    <h1 data-reveal>Hi, I'm <span class="grad">Sajad</span>.<br>
+    I build systems that <span class="grad">don't lose data</span>.</h1>
+    <p class="hero__lede" data-reveal>Backend systems first — <strong>FastAPI, PostgreSQL, Redis</strong> — then retrieval and AI layered on top. Every claim on this site is backed by a mechanism, a test, or a number I actually measured.</p>
+    <div class="cta" data-reveal>
+      <a class="btn" href="./projects.html">View projects →</a>
+      <a class="btn btn--ghost" href="./resume.pdf">Résumé</a>
+      <a class="btn btn--ghost" href="https://github.com/sajadinmaker">GitHub ↗</a>
+    </div>
+    <dl class="stats" data-reveal aria-label="Work at a glance">
+      <div><dt>Automated tests across shipped systems</dt><dd>140+</dd></div>
+      <div><dt>Peak line coverage — HookFlow</dt><dd>~93%</dd></div>
+      <div><dt>Storage engine on PyPI</dt><dd>neuDB</dd></div>
+      <div><dt>Prize, 30+ team competition</dt><dd>2nd</dd></div>
+    </dl>
+  </section>
 
-  <h2>Selected work</h2>
-  <ul class="plain">
-    <li><a href="./projects/hookflow.html">HookFlow</a> <span class="tag">Featured</span> — webhooks that never get lost.
-      <span class="meta">73 tests · <a href="https://github.com/sajadinmaker/hookflow">Source</a></span></li>
-    <li><a href="./projects/lexora.html">Lexora</a> <span class="tag">Featured</span> — ask questions over your own documents.
-      <span class="meta"><a href="https://github.com/sajadinmaker/lexora-ai">Source</a></span></li>
-    <li><a href="./projects/neudb.html">neuDB</a> — a tiny database in plain Python.
-      <span class="meta"><a href="https://github.com/sajadinmaker/neudb">Source</a> · <a href="https://pypi.org/project/neudb/">PyPI</a></span></li>
-    <li><a href="./projects/esencelab.html">EsenceLab</a> — AI hiring platform.
-      <span class="meta"><a href="https://github.com/sajadinmaker/esencelab">Source</a></span></li>
-  </ul>
+  <section>
+    <p class="eyebrow sec-title" data-reveal>Selected work</p>
+    <p class="sec-sub" data-reveal>Six systems — each with a write-up and the code on GitHub.</p>
+    <div class="grid grid--3" style="margin-top:1.2rem">
 
-  <h2>Writing</h2>
-  <ul class="plain">
-    <li><a href="./writing/preventing-double-delivery-hookflow.html">Preventing double delivery under concurrent workers</a>
-      <span class="meta">27 Sep 2026 — atomic claims, zero double delivery.</span></li>
-    <li><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a>
-      <span class="meta">14 Sep 2026 — delivery is a storage problem.</span></li>
-    <li><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a>
-      <span class="meta">24 Jul 2026 — a database you can <code>cat</code>.</span></li>
-  </ul>
+      <article class="card card--featured" data-reveal>
+        <div class="card__top"><span class="card__num">01</span><span class="tag">Featured</span></div>
+        <h3><a href="./projects/hookflow.html">HookFlow</a></h3>
+        <p class="card__desc">Webhooks that never get lost — persist-first ingest, atomic claims with leases, dead-letter replay. Zero double delivery, verified by test.</p>
+        <p class="card__stack"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span></p>
+        <p class="card__links"><a href="./projects/hookflow.html">Case study →</a><a href="https://github.com/sajadinmaker/hookflow">Source ↗</a></p>
+      </article>
 
-  <h2>About</h2>
-  <p>I build backends and retrieval-backed AI products — owning the architecture, tests, and trade-offs myself.</p>
-  <p>Right now: hardening HookFlow (quotas, key rotation, load benchmarks), hardening neuDB and Lexora, looking for backend work.</p>
-  <p class="small"><a href="./humanize/">The human behind the work →</a></p>
+      <article class="card card--featured" data-reveal>
+        <div class="card__top"><span class="card__num">02</span><span class="tag">Featured</span></div>
+        <h3><a href="./projects/lexora.html">Lexora</a></h3>
+        <p class="card__desc">Ask questions over your own documents — ingestion, retrieval with citations, SSE streaming, per-user isolation. The LLM is the easy part.</p>
+        <p class="card__stack"><span>Python</span><span>FastAPI</span><span>Redis</span><span>FAISS</span></p>
+        <p class="card__links"><a href="./projects/lexora.html">Case study →</a><a href="https://github.com/sajadinmaker/lexora-ai">Source ↗</a></p>
+      </article>
 
-  <h2>Contact</h2>
-  <p>Email works best: <a href="mailto:abdullasajad01@gmail.com">abdullasajad01@gmail.com</a></p>
+      <article class="card card--featured" data-reveal>
+        <div class="card__top"><span class="card__num">03</span><span class="tag">New</span></div>
+        <h3><a href="./projects/vpnbox.html">vpnbox</a></h3>
+        <p class="card__desc">A free Linux VPN with no account, no key, no payment — live VPN Gate servers ranked by real ping and speed, full-tunnel OpenVPN, and 239 platform-office locations.</p>
+        <p class="card__stack"><span>Python</span><span>stdlib only</span><span>OpenVPN</span><span>Linux</span></p>
+        <p class="card__links"><a href="./projects/vpnbox.html">Read more →</a><a href="https://github.com/sajadinmaker/vpnbox">Source ↗</a></p>
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card__top"><span class="card__num">04</span></div>
+        <h3><a href="./projects/neudb.html">neuDB</a></h3>
+        <p class="card__desc">A database you can <code>cat</code> — one JSON file per table, crash-atomic writes, semantic search. Published on PyPI, benchmarks included.</p>
+        <p class="card__stack"><span>Python</span><span>PyPI</span></p>
+        <p class="card__links"><a href="./projects/neudb.html">Write-up →</a><a href="https://github.com/sajadinmaker/neudb">Source ↗</a><a href="https://pypi.org/project/neudb/">PyPI ↗</a></p>
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card__top"><span class="card__num">05</span><span class="tag">Early</span></div>
+        <h3><a href="./projects/arenas.html">Arenas</a></h3>
+        <p class="card__desc">Coding tournaments for AI agents — N agents attempt the same task on isolated forks, every attempt gets scored, a human picks the winner.</p>
+        <p class="card__stack"><span>TypeScript</span><span>Cloudflare</span><span>Durable Objects</span></p>
+        <p class="card__links"><a href="./projects/arenas.html">Read more →</a><a href="https://github.com/sajadinmaker/Arenas">Source ↗</a></p>
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card__top"><span class="card__num">06</span></div>
+        <h3><a href="./projects/esencelab.html">EsenceLab</a></h3>
+        <p class="card__desc">AI hiring platform — deterministic matching first, LLM optional. Three services, clear boundaries, a monolith being split without breaking it.</p>
+        <p class="card__stack"><span>TypeScript</span><span>Express</span><span>FastAPI</span><span>Next.js</span></p>
+        <p class="card__links"><a href="./projects/esencelab.html">Write-up →</a><a href="https://github.com/sajadinmaker/esencelab">Source ↗</a></p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow sec-title" data-reveal>Focus</p>
+    <div class="grid grid--3" style="margin-top:1rem">
+
+      <div class="card" data-reveal>
+        <div class="card__top"><h3 style="margin:0">Backend</h3></div>
+        <p class="card__desc">APIs, queues, data models, and especially the failure paths — what happens at the worst moment is the product.</p>
+        <p class="card__stack"><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span><span>Docker</span></p>
+      </div>
+
+      <div class="card" data-reveal>
+        <div class="card__top"><h3 style="margin:0">Applied AI</h3></div>
+        <p class="card__desc">Retrieval you can evaluate — RAG, embeddings, vector search, and offline eval probes that run without an API key.</p>
+        <p class="card__stack"><span>RAG</span><span>FAISS</span><span>Evals</span></p>
+      </div>
+
+      <div class="card" data-reveal>
+        <div class="card__top"><h3 style="margin:0">Product</h3></div>
+        <p class="card__desc">The UX in front of the system — shipped for a college office, a retail shop, and a hiring platform.</p>
+        <p class="card__stack"><span>TypeScript</span><span>Next.js</span><span>Express</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <section data-reveal>
+    <h2 class="sec-title" style="margin-top:2.6rem">Writing</h2>
+    <p class="sec-sub">Short notes on things I built — no tutorials.</p>
+    <ul class="plain">
+      <li><a href="./writing/preventing-double-delivery-hookflow.html">Preventing double delivery under concurrent workers</a>
+        <span class="meta">27 Sep 2026 — atomic claims, leases, zero double delivery.</span></li>
+      <li><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a>
+        <span class="meta">14 Sep 2026 — delivery is a storage problem.</span></li>
+      <li><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a>
+        <span class="meta">24 Jul 2026 — a database you can <code>cat</code>.</span></li>
+    </ul>
+  </section>
+
+  <section data-reveal>
+    <h2 style="margin-top:2.6rem">About</h2>
+    <p>I build backends and retrieval-backed AI products — owning the architecture, the tests, and the trade-offs myself. <a href="./about.html">More about me →</a></p>
+    <p>Right now: <a href="./projects/vpnbox.html">vpnbox</a> just hit 1.0.0-beta2, <a href="./projects/arenas.html">Arenas</a> is being built in public, HookFlow is getting quotas and key rotation, and I'm looking for backend work.</p>
+    <p class="small"><a href="./humanize/">The human behind the work →</a></p>
+  </section>
+
+  <section data-reveal>
+    <h2 style="margin-top:2rem">Contact</h2>
+    <p>Email works best: <a href="mailto:abdullasajad01@gmail.com">abdullasajad01@gmail.com</a></p>
+  </section>
+
 </main>
 
 <footer>

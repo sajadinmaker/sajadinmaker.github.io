@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b14">
+<title>vpnbox — a free Linux VPN manager · Sajad</title>
+<meta name="description" content="Case study: a one-file, stdlib-only Linux VPN client over the VPN Gate volunteer network — live server ranking, full-tunnel OpenVPN, leak-proof DNS, and 239 platform-office locations.">
+<meta name="author" content="Abdulla Sajad">
+<link rel="canonical" href="https://sajadinmaker.github.io/projects/vpnbox.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Abdulla Sajad">
+<meta property="og:title" content="vpnbox — a free Linux VPN manager">
+<meta property="og:description" content="One Python file, standard library only: live VPN Gate servers, ranked, full-tunnel, no accounts.">
+<meta property="og:url" content="https://sajadinmaker.github.io/projects/vpnbox.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <p class="site-title"><a href="../"><span class="mark" aria-hidden="true">s</span>Sajad</a></p>
+  <nav aria-label="Primary">
+    <a href="../projects.html">Projects</a>
+    <a href="../writing.html">Writing</a>
+    <a href="../about.html">About</a>
+  </nav>
+</header>
+
+<main id="main">
+<div>
+<article>
+  <p class="breadcrumb"><a href="../projects.html">projects</a> / vpnbox</p>
+  <h1>vpnbox</h1>
+  <p><em>A free VPN for Linux that needs no account, no key, and no payment.</em></p>
+  <p class="metaline">Python 3.8+ · one file, stdlib only · v1.0.0-beta2 (Oct 2026) · OpenVPN + systemd-resolved — <a href="https://github.com/sajadinmaker/vpnbox">source</a></p>
+
+  <h2>Problem</h2>
+  <p>The public internet already runs an underrated resource: the <a href="https://vpngate.net">VPN Gate</a> relay experiment run by the University of Tsukuba — thousands of volunteer-run VPN servers, free, no signup. But consuming it properly means mashing three things together by hand: a mirror-fetch of a live server list, a ranking pass that knows which server is actually reachable, and a full-tunnel OpenVPN setup that doesn't leak DNS. vpnbox turns that mash-up into one command. "Just give me a working VPN, in any country, for free" is the whole spec.</p>
+
+  <h2>Constraints</h2>
+  <ul>
+    <li><strong>One Python file, standard library only.</strong> No pip installs for the app itself — download, run <code>install.sh</code>, get a <code>vpn</code> command.</li>
+    <li><strong>vpnbox never reimplements a protocol.</strong> OpenVPN is the datamover; vpnbox prepares config, routes, and DNS, and drives the binary. <code>openvpn-systemd-resolved</code> carries pushed DNS settings to the system so nothing leaks.</li>
+    <li><strong>Volunteer servers die by the hour.</strong> The design assumption is unreliable infrastructure: ranking, fail-fast, and verification are features, not extras.</li>
+    <li><strong>Honest output.</strong> Where you connect is printed — exit IP plus city/ISP — and if it doesn't match the country you asked for, vpnbox warns you rather than pretending.</li>
+  </ul>
+
+  <h2>Architecture</h2>
+  <pre>vpn (single stdlib file)
+  ├─ refresh ─→ VPN Gate live list (fetched on demand, geolocated)
+  ├─ rank ────→ real ping + speed measured before ranking
+  ├─ sites ───→ 29 platforms · 239 offices · 31 countries
+  │             (addresses OSM-geocoded, cached forever)
+  └─ connect ─→ best candidate through openvpn (full tunnel)
+        ↓ (interfaces, routes, DNS = system state → sudo)
+  systemd-resolved pushes DNS → nothing plaintext-leaks
+  ↳ status: exit IP + city/ISP verified after connect
+  ↳ fail-fast: dead server? try next best up to 3 times</pre>
+
+  <h2>The signature feature</h2>
+  <p>Beyond country and city targeting, vpnbox knows the worldwide office locations of <strong>29 platforms — 239 offices across 31 countries</strong> — so you can ask to <em>appear</em> near one.</p>
+  <pre>vpn sites                              # the whole catalogue
+sudo vpn connect --site meta           # near Meta's primary HQ (Menlo Park)
+sudo vpn connect --site meta --office Seoul
+sudo vpn connect --site meta --office all   # nearest to ANY of its 29 offices</pre>
+  <p><code>--site</code> alone means the primary HQ, predictable by design. Office addresses are geocoded precisely — one polite request per second to OpenStreetMap's Nominatim, its policy — then cached forever, degrading gracefully to city-level coordinates if OSM is unreachable. Distance is balanced with reality: offices bucket into distance tiers (≤40 / ≤150 / ≤500 / ≤1500 km) around each candidate server, and within a tier ping, speed, and UDP preference decide — so "4 km from the Bangkok office" is still the <em>fast alive server near there</em>, never a close-but-dead one.</p>
+
+  <h2>Engineering decisions</h2>
+  <ul>
+    <li><strong>Browse or don't.</strong> <code>vpn countries</code> / <code>vpn servers JP</code> drill down by country, city, ISP, ping, speed — or <code>vpn connect</code> skips browsing entirely and takes the best server anywhere.</li>
+    <li><strong>Fail fast, try the next.</strong> If a volunteer server refuses the handshake, vpnbox fails on it and tries the next best candidate, up to three times by default (<code>--max-tries</code>). Pin an exact entry with <code>--index</code>, skip a flaky one with <code>--skip</code>, and when a requested country has no live pool, <code>--nearest</code> offers the closest one that is.</li>
+    <li><strong>sudo only where it must be.</strong> VPN interfaces, routes, and DNS policies are system state — the one place vpnbox insists on root, and it prints the exact command to copy-paste if you forget.</li>
+    <li><strong>Caches with clear ownership.</strong> Server and office state live in <code>~/.cache/vpnbox</code>; runtime state under <code>/var</code> and <code>/run</code> is wiped by <code>uninstall.sh --purge</code>.</li>
+  </ul>
+
+  <h2>Status</h2>
+  <p>v1.0.0-beta2, shipped 2026-10-20. The core paths work end to end: refresh → browse → connect → verify → disconnect, with country/city and platform-office targeting. It is a beta: behaviors are still being pinned down before a 1.0. Per-test-suite numbers will land with the release, not before.</p>
+
+  <h2>Lessons</h2>
+  <p>Building on someone else's already-running infrastructure (the volunteers + OpenVPN + a university project) is mostly a translation job: turn a CSV mirror, a ping timeout, and a routing table into one honest CLI. The hard part isn't trust, it's truthfulness — the tool can't improve the network, so all it can offer is measurement (real ping, real speed), fail-fast behavior, and telling you exactly where you landed.</p>
+
+  <h2>Source</h2>
+  <p><a href="https://github.com/sajadinmaker/vpnbox">github.com/sajadinmaker/vpnbox</a></p>
+
+  <p class="back-link"><a href="../projects.html">← projects</a></p>
+</article>
+</div>
+  </main>
+
+  <footer>
+  <p>© <span id="year">2026</span> Sajad · <a href="https://github.com/sajadinmaker">GitHub</a> · <a href="https://www.linkedin.com/in/abdullasajad">LinkedIn</a></p>
+</footer>
+
+<script src="../script.js" defer></script>
+</body>
+</html>

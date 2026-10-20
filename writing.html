@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#121212">
+<meta name="theme-color" content="#0b0b14">
 <title>Writing · Sajad — Software Engineer</title>
 <meta name="description" content="Short notes on things I built: webhooks, storage, and the mistakes in between.">
 <meta name="author" content="Abdulla Sajad">
@@ -23,7 +23,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <p class="site-title"><a href="./">Sajad</a></p>
+  <p class="site-title"><a href="./"><span class="mark" aria-hidden="true">s</span>Sajad</a></p>
   <nav aria-label="Primary">
     <a href="./projects.html">Projects</a>
     <a href="./writing.html">Writing</a>
@@ -32,14 +32,16 @@
 </header>
 
 <main id="main">
-<h1>Writing</h1>
-
-<p>I write when I've built something and want to remember what actually happened. Short, no tutorials.</p>
+  <section class="hero" style="padding-top:1rem">
+  <p class="eyebrow" data-reveal><span class="grad" style="font-weight:800">Writing</span></p>
+  <h1 data-reveal>Notes from <span class="grad">actual builds</span>.</h1>
+  <p class="hero__lede" data-reveal>I write when I've built something and want to remember what actually happened. Short, no tutorials.</p>
+  </section>
 
   <ul class="plain">
-<li><a href="./writing/preventing-double-delivery-hookflow.html">Preventing double delivery under concurrent workers</a><span class="meta">27 Sep 2026 — Atomic claims, leases, and the test that drives real overlapping workers.</span></li>
-<li><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a><span class="meta">14 Sep 2026 — Why I stopped trying to send webhooks inside the request.</span></li>
-  <li><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a><span class="meta">24 Jul 2026 — What writing a tiny database taught me about failure.</span></li>
+<li data-reveal><a href="./writing/preventing-double-delivery-hookflow.html">Preventing double delivery under concurrent workers</a><span class="meta">27 Sep 2026 — Atomic claims, leases, and the test that drives real overlapping workers.</span></li>
+<li data-reveal><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a><span class="meta">14 Sep 2026 — Why I stopped trying to send webhooks inside the request.</span></li>
+<li data-reveal><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a><span class="meta">24 Jul 2026 — What writing a tiny database taught me about failure.</span></li>
 </ul>
   </main>
 
