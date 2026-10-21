@@ -128,7 +128,6 @@
         'ls -la      the detailed listing',
         'open <name> go there — try: open hookflow',
         'read        writing, newest first',
-        'status      current state',
         'contact     best way in',
         'clear       tidy up',
         'sudo        for the bold',
@@ -171,16 +170,6 @@
         p.textContent = text;
         push(p);
       }
-      function outDot(text) {
-        var p = document.createElement('p');
-        p.className = 'dyn out';
-        var d = document.createElement('span');
-        d.className = 'dot';
-        d.setAttribute('aria-hidden', 'true');
-        p.appendChild(d);
-        p.appendChild(document.createTextNode(text));
-        push(p);
-      }
 
       function run(raw) {
         var cmd = raw.trim();
@@ -216,9 +205,6 @@
             break;
           case 'read':
             READ.forEach(out);
-            break;
-          case 'status':
-            out('open to backend & applied-AI work — vpnbox beta shipped');
             break;
           case 'contact':
             out('abdullasajad01@gmail.com — email works best');
