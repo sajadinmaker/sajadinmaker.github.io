@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#f6f1e6">
-<title>Lexora — async document/retrieval backend · Sajad</title>
-<meta name="description" content="Case study: FastAPI document processing and retrieval backend — PostgreSQL, Redis, background workers, auth, observability, testing.">
+<title>Lexora: async document and retrieval backend · Sajad</title>
+<meta name="description" content="Case study: FastAPI document processing and retrieval backend with PostgreSQL, Redis, background workers, auth, observability, and testing.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/projects/lexora.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Abdulla Sajad">
-<meta property="og:title" content="Lexora — async document/retrieval backend">
-<meta property="og:description" content="Case study: FastAPI document processing and retrieval backend — PostgreSQL, Redis, background workers, auth, observability, testing.">
+<meta property="og:title" content="Lexora: async document and retrieval backend">
+<meta property="og:description" content="Case study: FastAPI document processing and retrieval backend with PostgreSQL, Redis, background workers, auth, observability, and testing.">
 <meta property="og:url" content="https://sajadinmaker.github.io/projects/lexora.html">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lexora — async document/retrieval backend">
-<meta name="twitter:description" content="Case study: FastAPI document processing and retrieval backend — PostgreSQL, Redis, background workers, auth, observability, testing.">
+<meta name="twitter:title" content="Lexora: async document and retrieval backend">
+<meta name="twitter:description" content="Case study: FastAPI document processing and retrieval backend with PostgreSQL, Redis, background workers, auth, observability, and testing.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -27,8 +27,7 @@
   <p class="site-title"><a href="../">Sajad</a></p>
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
-    <a href="../writing.html">Writing</a>
-    <a href="../about.html">About</a>
+        <a href="../about.html">About</a>
   </nav>
 </header>
 
@@ -40,10 +39,10 @@
   <p class="breadcrumb"><a href="../projects.html">projects</a> / lexora</p>
   <h1>Lexora</h1>
   <p><em>Asynchronous document processing and retrieval backend.</em></p>
-  <p class="metaline">Python · FastAPI · PostgreSQL · Redis · Celery · FAISS · Docker — 35 tests, CI — <a href="https://github.com/sajadinmaker/lexora-ai">source</a></p>
+  <p class="metaline">Python · FastAPI · PostgreSQL · Redis · Celery · FAISS · Docker · 35 tests, CI · <a href="https://github.com/sajadinmaker/lexora-ai">source</a></p>
 
   <h2>Problem</h2>
-  <p>Small teams need grounded Q&amp;A over their own PDFs, text, Markdown, and Word files — without building retrieval, auth, and background processing from scratch. "RAG" is one component of that system; the backend around it is most of the work.</p>
+  <p>Small teams need grounded Q&amp;A over their own PDFs, text, Markdown, and Word files, without building retrieval, auth, and background processing from scratch. "RAG" is one component of that system; the backend around it is most of the work.</p>
 
   <h2>Constraints</h2>
   <ul>
@@ -66,26 +65,26 @@ Document Processing (validate → extract → chunk → embed → per-user FAISS
 Retrieval (query embed → top-k → rank → context) → LLM (chat / stream)</pre>
 
   <h2>Implementation</h2>
-  <p>JWT register/login/refresh/logout with a Redis-backed token blacklist for logout and rotation. Uploads go through type/size validation, then extraction (pypdf, python-docx), chunking, embedding, and per-user FAISS indexing — via the same <code>process_document</code> path in both inline and Celery modes. Chat answers through retrieval + LLM with SSE streaming and conversation history. Retrieval results cache for 1h under user-scoped keys. Non-streaming LLM calls retry 3× with exponential backoff; API routes carry request IDs and enforced per-IP rate limits (429 + <code>Retry-After</code>). Prometheus <code>/metrics</code>, structured JSON logs, <code>/health</code> + <code>/ready</code> (DB + Redis checks), Docker Compose for the full stack.</p>
+  <p>JWT register/login/refresh/logout with a Redis-backed token blacklist for logout and rotation. Uploads go through type/size validation, then extraction (pypdf, python-docx), chunking, embedding, and per-user FAISS indexing, all through the same <code>process_document</code> path in both inline and Celery modes. Chat answers through retrieval + LLM with SSE streaming and conversation history. Retrieval results cache for 1h under user-scoped keys. Non-streaming LLM calls retry 3× with exponential backoff; API routes carry request IDs and enforced per-IP rate limits (429 + <code>Retry-After</code>). Prometheus <code>/metrics</code>, structured JSON logs, <code>/health</code> + <code>/ready</code> (DB + Redis checks), Docker Compose for the full stack.</p>
 
   <h2>Engineering decisions</h2>
   <ul>
     <li><strong>PostgreSQL for relational history</strong> with async SQLAlchemy pooling; SQLite only for tests.</li>
-    <li><strong>Redis for two jobs</strong> — retrieval cache and JWT revocation — not as a general dumping ground.</li>
+    <li><strong>Redis for two jobs</strong>: retrieval cache and JWT revocation, not a general dumping ground.</li>
     <li><strong>Per-user FAISS isolation</strong> for simplicity, rebuilt on delete. Documented trade-off; pgvector is the planned replacement.</li>
     <li><strong>Dead dependencies removed</strong> (Sentry SDK never wired, pymupdf never imported, Alembic with no migrations) rather than carried for keywords.</li>
   </ul>
 
   <h2>Challenges</h2>
-  <p>The README's own limitation list was the work queue: rate limiting configured but not enforced, no request IDs, LLM calls without retries. Each was closed with a mechanism plus a test — the reliability test file covers the limiter windows, the 429 contract, and a transient-failure-then-recovery LLM sequence. What remains open (streaming retries, idempotent uploads, FAISS→pgvector) stays listed as limitations, not silent gaps.</p>
+  <p>The README's own limitation list was the work queue: rate limiting configured but not enforced, no request IDs, LLM calls without retries. Each was closed with a mechanism plus a test. The reliability test file covers the limiter windows, the 429 contract, and a transient-failure-then-recovery LLM sequence. What remains open (streaming retries, idempotent uploads, FAISS→pgvector) stays listed as limitations, not silent gaps.</p>
 
   <h2>Benchmarks</h2>
-  <p>Measured: 35 unit tests passing, ~49% coverage, and a deterministic retrieval recall probe (<code>scripts/eval_retrieval.py</code>) scoring 3/3 at top-3 — a keyword-recall floor over chunking that needs no API keys. Latency/throughput numbers (upload→processable, retrieval, chat, first-token) require PG + Redis + an OpenAI key and are not yet measured — so they are not cited.</p>
+  <p>Measured: 35 unit tests passing, ~49% coverage, and a deterministic retrieval recall probe (<code>scripts/eval_retrieval.py</code>) scoring 3/3 at top-3, a keyword-recall floor over chunking that needs no API keys. Latency and throughput numbers (upload to processable, retrieval, chat, first token) require PG + Redis + an OpenAI key and are not yet measured, so they are not cited.</p>
 
   <h2>Trade-offs</h2>
   <ul>
     <li>FAISS per-user indexes are simple and isolated but rebuild on delete and don't scale like pgvector.</li>
-    <li>LangChain wrappers remain (direct OpenAI calls planned) — abstraction kept where it already works.</li>
+    <li>LangChain wrappers remain (direct OpenAI calls planned); abstraction stays only where it already works.</li>
     <li>Rate limiting is single-replica in-memory; Redis sliding windows come with multi-replica deployment.</li>
   </ul>
 

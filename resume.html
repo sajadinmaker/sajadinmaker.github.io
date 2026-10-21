@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Abdulla Sajad — Resume</title>
+<title>Abdulla Sajad: Resume</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://sajadinmaker.github.io/resume.html">
-<link rel="alternate" type="application/rss+xml" title="Abdulla Sajad" href="https://sajadinmaker.github.io/feed.xml">
-<meta name="description" content="Abdulla Sajad — Software Engineer, backend systems and AI infrastructure.">
+<meta name="description" content="Abdulla Sajad, Software Engineer: backend systems and AI infrastructure.">
 <style>
   body { font-family: Georgia, 'Times New Roman', serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.45; }
   h1 { font-size: 1.6rem; margin-bottom: 0; }
@@ -25,7 +24,7 @@
 <body>
 <main>
 <h1>Abdulla Sajad</h1>
-<p class="subtitle">Software Engineer — Backend Systems and AI Infrastructure</p>
+<p class="subtitle">Software Engineer, Backend Systems and AI Infrastructure</p>
 <p class="contact">+91 9207761088 · abdullasajad01@gmail.com<br>linkedin.com/in/abdullasajad · github.com/sajadinmaker · sajadinmaker.github.io</p>
 
 <h2>Summary</h2>
@@ -39,25 +38,19 @@
 <strong>DevOps:</strong> Docker, GitHub Actions, CI/CD, Linux, Monitoring &amp; Observability (Prometheus)</p>
 
 <h2>Projects</h2>
-<h3>HookFlow — Webhook/Event Delivery Infrastructure <span class="meta">| Python, FastAPI, PostgreSQL, Redis, Docker, Next.js | GitHub</span></h3>
-<ul>
-  <li>Built persist-first ingest: Event + Delivery rows committed in one transaction before any queue touch, so a lost Redis message costs latency, never an event.</li>
-  <li>Enforced at-least-once safety with <code>UNIQUE(endpoint_id, idempotency_key)</code> plus atomic worker claims (<code>FOR UPDATE SKIP LOCKED</code>, 60s leases) — verified zero double delivery under concurrent workers; 73 tests.</li>
-  <li>Added HMAC-signed delivery, exponential backoff, DLQ with replay, tenant isolation via per-tenant API keys, Alembic migrations, Prometheus metrics, and a Next.js operator dashboard.</li>
-</ul>
-<h3>Lexora AI — Document Processing and Retrieval Backend <span class="meta">| Python, FastAPI, LangChain, OpenAI, FAISS, Redis, Celery, Prometheus | GitHub</span></h3>
+<h3>Lexora AI: Document Processing and Retrieval Backend <span class="meta">| Python, FastAPI, LangChain, OpenAI, FAISS, Redis, Celery, Prometheus | GitHub</span></h3>
 <ul>
   <li>Engineered JWT auth with Redis-backed token revocation and refresh rotation; Redis retrieval caching; Celery async ingestion pipeline; 35-test suite.</li>
   <li>Built per-user FAISS index isolation with retrieval + citations, SSE streaming, and conversation history (pgvector migration planned and documented).</li>
 </ul>
-<h3>EsenceLab — AI Hiring Platform <span class="meta">| Next.js, TypeScript, Express, FastAPI, Supabase | GitHub · Live</span></h3>
+<h3>EsenceLab: AI Hiring Platform <span class="meta">| Next.js, TypeScript, Express, FastAPI, Supabase | GitHub · Live</span></h3>
 <ul>
   <li>Built a 3-service system (Next.js, Express, FastAPI) with JWT auth and RBAC across student, recruiter, and admin roles, resume parsing and skill-matching, rate limiting and audit logging.</li>
   <li>Led a 3-engineer team; won 2nd Prize at Innovision Project Competition (30+ teams).</li>
 </ul>
 
 <h2>Experience</h2>
-<h3>Independent Software Engineer — Remote <span class="meta">2023 – Present</span></h3>
+<h3>Independent Software Engineer, Remote <span class="meta">2023 – Present</span></h3>
 <ul>
   <li>Built and deployed an order-management and real-time tracking system (Next.js, Express, PostgreSQL, Supabase) for a college institution as sole engineer, replacing manual spreadsheet workflows.</li>
   <li>Built and deployed an e-commerce storefront (Next.js, Express, Supabase) for a local retail brand with catalog management and secure checkout.</li>
@@ -65,12 +58,12 @@
 
 <h2>Achievements</h2>
 <ul>
-  <li>2nd Prize, Innovision Project Competition — led 3-engineer team building EsenceLab (30+ teams).</li>
+  <li>2nd Prize, Innovision Project Competition, leading a 3-engineer team building EsenceLab (30+ teams).</li>
 </ul>
 
 <h2>Education</h2>
-<p><strong>Sree Narayana Guru College of Engineering and Technology</strong> — B.Tech, Computer Science and Engineering, CGPA 7.1/10 (2022 – 2026), Kerala, India<br>
-<strong>Vadi Husna Public School</strong> — Higher Secondary, Computer Science (2020 – 2022), Kerala, India</p>
+<p><strong>Sree Narayana Guru College of Engineering and Technology</strong>: B.Tech, Computer Science and Engineering, CGPA 7.1/10 (2022 – 2026), Kerala, India<br>
+<strong>Vadi Husna Public School</strong>: Higher Secondary, Computer Science (2020 – 2022), Kerala, India</p>
 </main>
 </body>
 </html>

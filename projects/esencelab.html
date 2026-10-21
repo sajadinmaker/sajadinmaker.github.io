@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#f6f1e6">
-<title>EsenceLab — multi-service product backend · Sajad</title>
-<meta name="description" content="Case study: Express API with JWT and RBAC, FastAPI AI service, Next.js frontend, Supabase PostgreSQL — and splitting a 6K-line monolith.">
+<title>EsenceLab: multi-service product backend · Sajad</title>
+<meta name="description" content="Case study: Express API with JWT and RBAC, FastAPI AI service, Next.js frontend, Supabase PostgreSQL, and splitting a 6K-line monolith.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/projects/esencelab.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Abdulla Sajad">
-<meta property="og:title" content="EsenceLab — multi-service product backend">
-<meta property="og:description" content="Case study: Express API with JWT and RBAC, FastAPI AI service, Next.js frontend, Supabase PostgreSQL — and splitting a 6K-line monolith.">
+<meta property="og:title" content="EsenceLab: multi-service product backend">
+<meta property="og:description" content="Case study: Express API with JWT and RBAC, FastAPI AI service, Next.js frontend, Supabase PostgreSQL, and splitting a 6K-line monolith.">
 <meta property="og:url" content="https://sajadinmaker.github.io/projects/esencelab.html">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EsenceLab — multi-service product backend">
+<meta name="twitter:title" content="EsenceLab: multi-service product backend">
 <meta name="twitter:description" content="Case study: Express API with JWT and RBAC, FastAPI AI service, Next.js frontend, Supabase PostgreSQL.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
@@ -27,8 +27,7 @@
   <p class="site-title"><a href="../">Sajad</a></p>
   <nav aria-label="Primary">
     <a href="../projects.html">Projects</a>
-    <a href="../writing.html">Writing</a>
-    <a href="../about.html">About</a>
+        <a href="../about.html">About</a>
   </nav>
 </header>
 
@@ -40,16 +39,16 @@
   <p class="breadcrumb"><a href="../projects.html">projects</a> / esencelab</p>
   <h1>EsenceLab</h1>
   <p><em>Multi-service product system: TypeScript API with authentication and RBAC, Python AI service, PostgreSQL.</em></p>
-  <p class="metaline">TypeScript · Express · Next.js · Python FastAPI · Supabase PostgreSQL · Docker — RBAC suite, CI — <a href="https://github.com/sajadinmaker/esencelab">source</a></p>
+  <p class="metaline">TypeScript · Express · Next.js · Python FastAPI · Supabase PostgreSQL · Docker · RBAC suite, CI · <a href="https://github.com/sajadinmaker/esencelab">source</a></p>
 
   <h2>Problem</h2>
-  <p>Students can't map resumes to skill gaps, recruiters screen manually, admins lack one control surface. The engineering problem underneath: three deployables (web, API, AI service) with clear boundaries — auth, role-gated onboarding, resume parsing, job matching — sharing one data model.</p>
+  <p>Students can't map resumes to skill gaps, recruiters screen manually, admins lack one control surface. The engineering problem underneath: three deployables (web, API, AI service) with clear boundaries: auth, role-gated onboarding, resume parsing, and job matching, all sharing one data model.</p>
 
   <h2>Constraints</h2>
   <ul>
     <li>One meaningful AI workflow (resume parse + match); secondary LMS/coach features stay out of the story.</li>
     <li>Managed Postgres (Supabase) for operations; authorization enforced in the API, not delegated to permissive RLS.</li>
-    <li>AI calls must degrade gracefully — deterministic matching first, LLM optional.</li>
+    <li>AI calls must degrade gracefully: deterministic matching first, LLM optional.</li>
   </ul>
 
   <h2>Architecture</h2>
@@ -60,27 +59,27 @@ API (Express: JWT + RBAC, rate limits, request IDs)
 PostgreSQL (Supabase: users, resumes, candidates, jobs, applications)
   ↓
 AI service (FastAPI: /ai/parse-resume, /ai/match)</pre>
-  <p>Service calls are synchronous <code>fetch</code> with an internal service token and 8–12s timeouts — no queues yet, documented as the next step. Matching is deterministic first (<code>overlap×0.55 + TF-IDF×0.45</code> with fallbacks); the LLM path is optional with local fallback.</p>
+  <p>Service calls are synchronous <code>fetch</code> with an internal service token and 8–12s timeouts, no queues yet, documented as the next step. Matching is deterministic first (<code>overlap×0.55 + TF-IDF×0.45</code> with fallbacks); the LLM path is optional with local fallback.</p>
 
   <h2>Implementation</h2>
   <p>Auth with JWT plus role-based access across student/recruiter/admin, including a gated recruiter flow (request → admin approve → temp password → login). Resume upload (PDF, 4MB cap) with structured parsing. Jobs CRUD plus applications, skill-overlap matching with explanations. Per-endpoint in-memory metrics and <code>/api/health</code>; Docker per service; CI with RBAC smoke and stress suites running against a mocked Supabase.</p>
 
   <h2>Engineering decisions</h2>
   <ul>
-    <li><strong>Supabase as managed PostgreSQL</strong>; RLS policies are permissive by configuration and documented as not relied upon — authorization lives in Express.</li>
-    <li><strong>Deterministic matching before LLM</strong> — explainable, free, testable; the model is an enhancement, not the foundation.</li>
+    <li><strong>Supabase as managed PostgreSQL</strong>; RLS policies are permissive by configuration and documented as not relied upon; authorization lives in Express.</li>
+    <li><strong>Deterministic matching before LLM</strong>: explainable, free, testable. The model is an enhancement, not the foundation.</li>
     <li><strong>Monolith split by extraction</strong>, pure functions first: role helpers moved to <code>backend/src/auth/roles.ts</code> with zero behavior change, verified by the green RBAC suite before the next step.</li>
   </ul>
 
   <h2>Challenges</h2>
-  <p>The API grew into a ~6K-line single file that still passes its tests — the classic "works but can't evolve" state. The fix is mechanical, not clever: extract dependency-free modules first (done for auth roles), convert closures to arguments for the rest, and keep the RBAC suite green at every step. The split plan with verification gates lives in <code>docs/ARCHITECTURE.md</code>.</p>
+  <p>The API grew into a ~6K-line single file that still passes its tests, the classic "works but can't evolve" state. The fix is mechanical, not clever: extract dependency-free modules first (done for auth roles), convert closures to arguments for the rest, and keep the RBAC suite green at every step. The split plan with verification gates lives in <code>docs/ARCHITECTURE.md</code>.</p>
 
   <h2>Benchmarks</h2>
-  <p>RBAC smoke + stress suites green (<code>SUPABASE_MOCK=1</code>). Latency thresholds exist (slow-endpoint 1200ms, p95 alert 2500ms) but are alerts, not measurements — no latency numbers are cited.</p>
+  <p>RBAC smoke + stress suites green (<code>SUPABASE_MOCK=1</code>). Latency thresholds exist (slow-endpoint 1200ms, p95 alert 2500ms) but are alerts, not measurements, so no latency numbers are cited.</p>
 
   <h2>Trade-offs</h2>
   <ul>
-    <li>Synchronous AI calls instead of a queue: simpler, with timeouts — a queue arrives when AI latency actually blocks requests.</li>
+    <li>Synchronous AI calls instead of a queue: simpler, with timeouts. A queue arrives when AI latency actually blocks requests.</li>
     <li>In-memory monitoring instead of external APM: documented gap.</li>
     <li>Secondary features (courses, interviews, analytics) exist in the codebase but are deliberately excluded from this story.</li>
   </ul>
