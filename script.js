@@ -102,8 +102,7 @@
         'lexora': './projects/lexora.html',
         'neudb': './projects/neudb.html',
         'esencelab': './projects/esencelab.html',
-        'vpnbox': 'https://github.com/sajadinmaker/vpnbox',
-        'arenas': 'https://github.com/sajadinmaker/Arenas'
+        'vpnbox': 'https://github.com/sajadinmaker/vpnbox'
       };
       var PAGES = {
         'projects': './projects.html',
@@ -121,8 +120,7 @@
         '-rw-r--r--   6.5k  2026-09-20  lexora.html',
         '-rw-r--r--   6.4k  2026-09-20  neudb.html',
         '-rw-r--r--   6.3k  2026-09-20  esencelab.html',
-        'drwxr-xr-x         2026-09     vpnbox/',
-        'drwxr-xr-x         2026-10     arenas/'
+        'drwxr-xr-x         2026-09     vpnbox/'
       ];
       var HELP = [
         'help        this list',
@@ -203,7 +201,7 @@
             } else if (wantLong) {
               LS_LONG.forEach(out);
             } else {
-              out('hookflow/  lexora/  neudb/  esencelab/  vpnbox/  arenas/');
+              out('hookflow/  lexora/  neudb/  esencelab/  vpnbox/');
             }
             break;
           case 'open':
@@ -220,7 +218,7 @@
             READ.forEach(out);
             break;
           case 'status':
-            out('open to backend & applied-AI work — vpnbox beta shipped, arenas in public');
+            out('open to backend & applied-AI work — vpnbox beta shipped');
             break;
           case 'contact':
             out('abdullasajad01@gmail.com — email works best');
