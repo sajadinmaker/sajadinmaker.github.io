@@ -21,12 +21,5 @@
       <pubDate>Sun, 14 Sep 2026 00:00:00 +0000</pubDate>
       <description>Why webhook delivery is a persistence problem, not a POST problem.</description>
     </item>
-    <item>
-      <title>Why I built neuDB</title>
-      <link>https://sajadinmaker.github.io/writing/why-i-built-neudb.html</link>
-      <guid>https://sajadinmaker.github.io/writing/why-i-built-neudb.html</guid>
-      <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>
-      <description>A short note on designing a transparent local database for AI memory.</description>
-    </item>
   </channel>
 </rss>

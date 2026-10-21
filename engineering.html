@@ -83,7 +83,6 @@ Citations</pre>
 <li>HookFlow: 73 tests, ~93% line coverage, 5 CI jobs (schema, Postgres, tests, docker-build, dashboard).</li>
 <li>HookFlow ingest: ~39 rps at p95 29ms for 1KB payloads (TestClient + SQLite — the transaction, not production Postgres).</li>
 <li>Lexora: 35 tests; retrieval recall probe 3/3 at top-3.</li>
-<li>neuDB: 32 tests; per-insert cost grows with file size (O(N) confirmed) — do not use past ~10K rows per table.</li>
 <li>vpnbox: v1.0.0-beta2, one stdlib-only Python file — no claimed numbers of its own; it measures live ping/speed of the relays before trusting them.</li>
 </ul>
 <p>Full context lives in the <a href="./projects.html">project case studies</a>.</p>
@@ -92,8 +91,6 @@ Citations</pre>
 <ul class="plain">
 <li><a href="./writing/hookflow-persist-first.html">HookFlow: accept first, deliver later</a>
   <span class="meta">14 Sep 2026 — delivery as a storage problem.</span></li>
-<li><a href="./writing/why-i-built-neudb.html">Why I built neuDB</a>
-  <span class="meta">24 Jul 2026 — what writing a tiny database taught me about failure.</span></li>
 </ul>
   </main>
 

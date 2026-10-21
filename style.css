@@ -304,9 +304,6 @@ footer {
 footer p { margin-bottom: 0.3rem; }
 footer { font-family: var(--mono); font-size: 0.78rem; }
 
-/* 404 — the one red on the whole site, spent on a segfault joke */
-.crash { font-family: var(--mono); font-size: 0.8rem; color: #d63b2f; }
-
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--link);
   outline-offset: 3px;
@@ -327,7 +324,7 @@ a:focus-visible, button:focus-visible {
   }
 }
 
-/* ---- Retro touches: mono chrome, blinking cursor, terminal block.
+/* ---- Retro touches: mono chrome.
        Deliberately small — same layout, same palette, same type scale. ---- */
 
 .site-title a { font-family: var(--mono); }
@@ -339,64 +336,6 @@ nav { font-family: var(--mono); font-size: 0.88rem; }
   border-radius: 2px;
 }
 .breadcrumb, .metaline { font-family: var(--mono); font-size: 0.78rem; }
-
-/* Blinking block cursor (end of the terminal block). */
-.cursor {
-  display: inline-block;
-  width: 0.58ch;
-  height: 1.02em;
-  margin-left: 0.14em;
-  background: var(--text);
-  vertical-align: text-bottom;
-  animation: cursor-blink 1.15s steps(1, end) infinite;
-}
-@keyframes cursor-blink { 50% { opacity: 0; } }
-
-/* Homepage $ block — static quick facts, upgraded in place when JS runs. */
-.term {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--link);
-  border-radius: 3px;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  line-height: 1.8;
-  padding: 0.75rem 0.95rem;
-  margin-bottom: 1.2rem;
-  overflow-wrap: break-word;
-  transition: border-color var(--dur) var(--ease);
-}
-.term:focus-within { border-color: var(--link); }
-.term p { margin: 0; }
-.term-out p { white-space: pre-wrap; } /* keep column spacing; container stays normal so source newlines collapse */
-.term .prompt { color: var(--muted); }
-.term .out { color: var(--text); margin-bottom: 0.3rem; }
-.term-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
-  margin-top: 0.4rem;
-}
-.term-row label { cursor: text; flex-shrink: 0; }
-.term-in {
-  flex: 0 1 auto; /* width follows the size attribute so the block cursor hugs the text */
-  min-width: 0;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  color: var(--text);
-  caret-color: var(--text);
-  font: inherit;
-  font-family: var(--mono);
-  font-size: 1rem; /* 16px+ — avoids iOS focus zoom */
-}
-.term-in:focus { outline: none; }
-.term-in::placeholder { color: var(--muted); opacity: 0.7; }
-.term-in:not(:placeholder-shown) ~ .cursor { opacity: 0; }
-
-@media (prefers-reduced-motion: reduce) {
-  .cursor { animation: none; }
-}
 
 @media print {
   body { max-width: none; min-height: 0; padding: 0; color: #000; background: #fff; }
