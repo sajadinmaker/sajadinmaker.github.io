@@ -23,7 +23,7 @@
   <p class="site-title"><a href="../">Sajad</a></p>
   <nav aria-label="Primary">
     <a href="../projects.html"><span class="n">01</span> Projects</a>
-        <a href="../about.html"><span class="n">02</span> About</a>
+    <a href="../about.html"><span class="n">02</span> About</a>
   </nav>
 </header>
 
@@ -38,7 +38,7 @@
   <p class="metaline">TypeScript · Express · Next.js · Python FastAPI · Supabase PostgreSQL · Docker · RBAC suite, CI · <a href="https://github.com/sajadinmaker/esencelab">source</a></p>
 
   <h2>Problem</h2>
-  <p>Students can't map resumes to skill gaps, recruiters screen manually, admins lack one control surface. The engineering problem underneath: three deployables (web, API, AI service) with clear boundaries: auth, role-gated onboarding, resume parsing, and job matching, all sharing one data model.</p>
+  <p>Students can't map resumes to skill gaps, recruiters screen manually, admins lack one control surface. The engineering problem underneath: three deployables (web, API, AI service) share one data model, and the boundaries hold auth, role-gated onboarding, resume parsing, and job matching.</p>
 
   <h2>Constraints</h2>
   <ul>
@@ -63,7 +63,7 @@ AI service (FastAPI: /ai/parse-resume, /ai/match)</pre>
   <h2>Engineering decisions</h2>
   <ul>
     <li><strong>Supabase as managed PostgreSQL</strong>; RLS policies are permissive by configuration and documented as not relied upon; authorization lives in Express.</li>
-    <li><strong>Deterministic matching before LLM</strong>: explainable, free, testable. The model is an enhancement, not the foundation.</li>
+    <li><strong>Deterministic matching before LLM</strong>: explainable, free, testable. The model is an add-on, not the foundation.</li>
     <li><strong>Monolith split by extraction</strong>, pure functions first: role helpers moved to <code>backend/src/auth/roles.ts</code> with zero behavior change, verified by the green RBAC suite before the next step.</li>
   </ul>
 
