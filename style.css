@@ -172,14 +172,6 @@ a:focus-visible, button:focus-visible {
 /* Geek touch: numbered nav, prompt, numbered list, footer status. */
 nav .n { color: var(--link); font-size: 0.72rem; margin-right: 0.3rem; }
 
-.prompt {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin-bottom: 0.3rem;
-}
-.prompt .dollar { color: var(--link); }
-
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
 ul.numbered li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
 ul.numbered li::before {
