@@ -6,7 +6,7 @@
 ## 1. What this product is
 
 Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox), About,
-Resume, AI and Engineering pages. Goal: bring visitors to GitHub / LinkedIn /
+AI and Engineering pages. Goal: bring visitors to GitHub / LinkedIn /
 email contact. No blog, no archive, no feed, no personality pages.
 
 ## 2. How it works
@@ -15,7 +15,7 @@ email contact. No blog, no archive, no feed, no personality pages.
 - `projects/lexora.html`, `projects/esencelab.html` (case studies)
 - `style.css` (cream palette, 42rem column, static header, mono chrome)
 - `script.js` (~40 lines: footer year, active-nav marking, mailto copy)
-- Discovery: `sitemap.xml`, `robots.txt`, OG meta, `favicon.svg`, `resume.pdf`, `resume.html`
+- Discovery: `sitemap.xml`, `robots.txt`, OG meta, `favicon.svg`
 - Internal maintainer docs: `README.md`, `docs/PRODUCT.md`, `humans.txt`
 
 No templating: header/nav/footer duplicated per file (drift risk, see roadmap).
@@ -29,8 +29,8 @@ python3 -m http.server -d ~/sajadinmaker.github.io 8000
 ```
 
 ### Edit content
+- Site copy follows the technical-writing standard: plain sentences, one thought per sentence, real words over jargon (Diataxis modes, Google developer style, STE, Global English).
 - Project blurbs: `index.html` + `projects.html` + `projects/*.html` (keep in sync with the GitHub profile README)
-- Resume: replace `resume.pdf` + keep `resume.html` and `about.html` in sync
 - Styles/nav: `style.css`, each page's `<nav>`
 
 ### Deploy
