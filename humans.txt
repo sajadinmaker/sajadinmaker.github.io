@@ -1,7 +1,7 @@
 /* group: person */
 name: Abdulla Sajad
 handle: sajadinmaker
-role: software engineer, backend systems & applied AI
+role: software engineer, backend systems, applied AI, security exploration
 email: abdullasajad01@gmail.com
 
 /* group: site */
