@@ -23,12 +23,13 @@
 <header>
   <p class="site-title"><a href="./">Sajad</a></p>
   <nav aria-label="Primary">
-    <a href="./projects.html">Projects</a>
-    <a href="./about.html">About</a>
+    <a href="./projects.html"><span class="n">01</span> Projects</a>
+    <a href="./about.html"><span class="n">02</span> About</a>
   </nav>
 </header>
 
 <main id="main">
+  <p class="prompt" aria-hidden="true"><span class="dollar">$</span> whoami</p>
   <h1>Hi, I'm Sajad.</h1>
   <p><strong>Software Engineer. Backend systems and AI infrastructure.</strong><br>
   I build backend systems first (FastAPI, PostgreSQL, Redis), then layer retrieval and AI on top. I also explore security and build small tools around it.</p>
@@ -41,7 +42,7 @@
   Security: hacking and defense exploration, small tools</p>
 
   <h2>Selected work</h2>
-  <ul class="plain">
+  <ul class="plain numbered">
     <li><a href="./projects/lexora.html">Lexora</a> asks questions over your own documents.
       <span class="meta"><a href="https://github.com/sajadinmaker/lexora-ai">Source</a></span></li>
     <li><a href="./projects/esencelab.html">EsenceLab</a> is an AI hiring platform.
@@ -54,6 +55,7 @@
 
 <footer>
   <p>© <span id="year">2026</span> sajad · <a href="https://github.com/sajadinmaker">github</a> · <a href="https://www.linkedin.com/in/abdullasajad">linkedin</a> · <a href="./humans.txt">humans.txt</a></p>
+  <p class="status">0 trackers · 0 cookies · no build step</p>
 </footer>
 
 <script src="./script.js" defer></script>
