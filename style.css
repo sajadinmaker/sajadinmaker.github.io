@@ -169,8 +169,17 @@ a:focus-visible, button:focus-visible {
   border-radius: 2px;
 }
 
-/* Geek touch: numbered nav, numbered list, footer status. */
+/* Geek touch: numbered nav, numbered list. */
 nav .n { color: var(--link); font-size: 0.72rem; margin-right: 0.3rem; }
+nav a { padding: 0.45rem 0.35rem; }
+nav a:hover, nav a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+nav a[aria-current="page"], nav a[data-section] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
 ul.numbered li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
@@ -183,14 +192,6 @@ ul.numbered li::before {
   font-family: var(--mono);
   font-size: 0.72rem;
   color: var(--muted);
-}
-
-.status {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--muted);
-  opacity: 0.75;
-  margin-top: 0.35rem;
 }
 
 @media print {
