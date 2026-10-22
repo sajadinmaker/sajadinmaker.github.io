@@ -169,7 +169,7 @@ a:focus-visible, button:focus-visible {
   border-radius: 2px;
 }
 
-/* Geek touch: numbered nav, prompt, numbered list, footer status. */
+/* Geek touch: numbered nav, numbered list, footer status. */
 nav .n { color: var(--link); font-size: 0.72rem; margin-right: 0.3rem; }
 
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
