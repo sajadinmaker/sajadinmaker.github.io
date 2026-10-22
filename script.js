@@ -1,4 +1,4 @@
-/* Progressive enhancement: footer year, active nav, sticky header state, copy email. */
+/* Progressive enhancement: footer year, active nav, copy email. */
 (function () {
   'use strict';
 
@@ -29,23 +29,6 @@
     }
   }
   markNav();
-
-  /* Reveal the header rule only once the page has scrolled. */
-  var header = document.querySelector('body > header');
-  if (header) {
-    var queued = false;
-    function syncHeader() {
-      queued = false;
-      header.classList.toggle('is-scrolled', window.scrollY > 8);
-    }
-    addEventListener('scroll', function () {
-      if (!queued) {
-        queued = true;
-        requestAnimationFrame(syncHeader);
-      }
-    }, { passive: true });
-    syncHeader();
-  }
 
   /* A copy button next to any link that displays a bare email address. */
   if (document.querySelectorAll('a[href^="mailto:"]').length) {

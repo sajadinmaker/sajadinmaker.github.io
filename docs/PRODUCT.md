@@ -5,21 +5,22 @@
 
 ## 1. What this product is
 
-Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox), Focus stack,
-About, Resume, AI and Engineering pages, plus the humanize intro page. Goal: bring
-visitors to GitHub / LinkedIn / email contact. No blog, no archive, no feed.
+Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox), About,
+Resume, AI and Engineering pages. Goal: bring visitors to GitHub / LinkedIn /
+email contact. No blog, no archive, no feed, no personality pages.
 
 ## 2. How it works
 
 - `index.html` (canonical), `projects.html`, `about.html`, `ai.html`, `engineering.html`, `404.html`
-- `projects/lexora.html`, `projects/esencelab.html` (case studies), `humanize/index.html`
-- `style.css` (cream palette, 42rem column), `script.js` (~90 lines: year, active-nav, sticky header, mailto copy)
-- Discovery: `sitemap.xml`, `robots.txt`, OG/Twitter meta, JSON-LD Person, `favicon.svg`, `resume.pdf`
+- `projects/lexora.html`, `projects/esencelab.html` (case studies)
+- `style.css` (cream palette, 42rem column, static header, mono chrome)
+- `script.js` (~40 lines: footer year, active-nav marking, mailto copy)
+- Discovery: `sitemap.xml`, `robots.txt`, OG meta, `favicon.svg`, `resume.pdf`, `resume.html`
 - Internal maintainer docs: `README.md`, `docs/PRODUCT.md`, `humans.txt`
 
 No templating: header/nav/footer duplicated per file (drift risk, see roadmap).
 
-## 3. User guide (serve users)
+## 3. User guide
 
 ### Serve locally
 ```bash
