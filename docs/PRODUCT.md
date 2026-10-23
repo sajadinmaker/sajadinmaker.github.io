@@ -5,7 +5,7 @@
 
 ## 1. What this product is
 
-Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox), About,
+Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox, HookFlow, neuDB), About,
 AI and Engineering pages. Goal: bring visitors to GitHub / LinkedIn /
 email contact. No blog, no archive, no feed, no personality pages.
 

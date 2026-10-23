@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#f6f1e6">
 <title>Projects · Sajad</title>
-<meta name="description" content="Projects: Lexora, EsenceLab, vpnbox. Backend systems and applied AI.">
+<meta name="description" content="Projects: Lexora, EsenceLab, vpnbox, HookFlow, neuDB. Backend systems and applied AI.">
 <meta name="author" content="Abdulla Sajad">
 <link rel="canonical" href="https://sajadinmaker.github.io/projects.html">
 <meta property="og:type" content="website">
@@ -30,7 +30,7 @@
 <main id="main">
 <h1>Projects</h1>
 
-<p>Backend systems and applied AI. Each one has a write-up, and the code is on GitHub.</p>
+<p>Backend systems and applied AI. Most have a write-up, and the code is on GitHub.</p>
 
   <article>
   <h3><a href="./projects/lexora.html">01 · Lexora</a></h3>
@@ -49,6 +49,18 @@
 <p>A free VPN for Linux, no accounts and no keys. It watches the volunteer-run VPN Gate relays and ranks what's actually alive by ping and speed. You can narrow the list by country or city. It connects you through OpenVPN with a full tunnel and the DNS handled, all in one stdlib-only Python file.</p>
 <p class="small muted">Python 3.8+ (stdlib only) · OpenVPN · v1.0.0-beta4</p>
 <p><a href="https://github.com/sajadinmaker/vpnbox">Source</a></p>
+</article>
+  <article>
+  <h3><a href="https://github.com/sajadinmaker/hookflow">04 · HookFlow</a></h3>
+<p>Webhooks that never get lost. The system accepts first, persists, then delivers with atomic claims, leases, and dead-letter recovery. Concurrent workers, zero double delivery, verified by test.</p>
+<p class="small muted">Python, FastAPI, PostgreSQL, Redis · 73 tests, ~93% coverage, 5 CI jobs</p>
+<p><a href="https://github.com/sajadinmaker/hookflow">Source</a></p>
+</article>
+  <article>
+  <h3><a href="https://github.com/sajadinmaker/neudb">05 · neuDB</a></h3>
+<p>A tiny database in plain Python. Writes are crash-atomic, files are human-readable, and the scope is stated plainly rather than sold. Published on PyPI.</p>
+<p class="small muted">Python · 32 tests, CI</p>
+<p><a href="https://github.com/sajadinmaker/neudb">Source</a> · <a href="https://pypi.org/project/neudb/">PyPI</a></p>
 </article>
   </main>
 
