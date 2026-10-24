@@ -6,7 +6,7 @@ email: abdullasajad01@gmail.com
 
 /* group: site */
 language: english
-theme: cream, mono, minimal with the chrome up
+theme: dark, mono, minimal with the chrome up
 standards: html + css + es5 js. no frameworks was a choice, not a workaround.
 trackers: 0
 cookies: 0

@@ -1,15 +1,20 @@
-/* Cream paper, bear-simple. Static header, plain lists, mono chrome. */
+/* OpenCode-style dark: near-black, quiet greys, one system blue. Static header, plain lists, mono chrome. */
 
 :root {
-  --bg: #f6f1e6;
-  --text: #2b2620;
-  --muted: #7d7264;
-  --link: #3a6b2f;
-  --border: #e3dac7;
-  --code-bg: #ece3d0;
+  --bg: #0c0c0e;
+  --text: #c7c7cc;
+  --bright: #ffffff;
+  --muted: #a1a1a6;
+  --link: #007aff;
+  --link-hover: #0056b3;
+  --border: #2c2c2e;
+  --border-strong: #38383a;
+  --code-bg: #161618;
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  color-scheme: light;
+  color-scheme: dark;
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,11 +33,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(58, 107, 47, 0.22); color: #1a150e; }
+::selection { background: rgba(0, 122, 255, 0.3); color: var(--bright); }
 
 a { color: var(--link); text-underline-offset: 2px; }
 a:visited { color: var(--link); }
-a:hover { color: #1a4a10; }
+a:hover { color: var(--link-hover); }
+
+h1, h2, h3, strong { color: var(--bright); }
 
 /* Skip link: hidden until keyboard focus. */
 .skip-link {
@@ -43,7 +50,7 @@ a:hover { color: #1a4a10; }
   z-index: 100;
   font-size: 0.9rem;
   text-decoration: none;
-  background: var(--text);
+  background: var(--bright);
   color: var(--bg);
   padding: 0.5rem 0.9rem;
   border-radius: 4px;
@@ -63,13 +70,13 @@ body > header {
 }
 
 .site-title { font-family: var(--mono); font-size: 0.95rem; font-weight: 650; }
-.site-title a { color: var(--text); text-decoration: none; }
+.site-title a { color: var(--bright); text-decoration: none; }
 
 nav { display: flex; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.85rem; }
 nav a { text-decoration: none; }
 nav a, nav a:visited { color: var(--muted); }
-nav a:hover, nav a:visited:hover { color: var(--text); }
-nav a[aria-current="page"], nav a[data-section] { color: var(--text); }
+nav a:hover, nav a:visited:hover { color: var(--bright); }
+nav a[aria-current="page"], nav a[data-section] { color: var(--bright); }
 
 h1 {
   font-size: clamp(1.6rem, 1.32rem + 1.3vw, 2.15rem);
@@ -106,7 +113,7 @@ code {
   font-family: var(--mono);
   font-size: 0.85em;
   background: var(--code-bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 3px;
   padding: 0.05rem 0.3rem;
   overflow-wrap: break-word;
@@ -114,7 +121,7 @@ code {
 
 pre {
   background: var(--code-bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 4px;
   padding: 0.9rem 1rem;
   overflow-x: auto;
@@ -132,14 +139,14 @@ pre code { background: none; border: 0; padding: 0; }
   line-height: 1.5;
   color: var(--muted);
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 4px;
   padding: 0 0.45rem;
   margin-left: 0.5rem;
   cursor: pointer;
 }
-.copy-btn:hover { color: var(--text); border-color: var(--muted); }
-.copy-btn.is-done { color: #2c5f2e; border-color: #7fb56d; }
+.copy-btn:hover { color: var(--bright); border-color: var(--muted); }
+.copy-btn.is-done { color: #30d158; border-color: var(--border-strong); }
 
 .visually-hidden {
   position: absolute;
@@ -199,7 +206,7 @@ ul.numbered li::before {
   body > header, footer, .copy-btn, .skip-link { display: none; }
   a { color: #000; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.78em; word-break: break-all; }
-  pre, code { background: none; border: 1px solid #bbb; }
-  pre { white-space: pre-wrap; }
+  code { color: #000; background: none; border: 1px solid #bbb; }
+  pre { color: #000; background: none; border: 1px solid #bbb; white-space: pre-wrap; }
   h2, h3 { break-after: avoid; }
 }
