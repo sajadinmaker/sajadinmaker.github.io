@@ -27,7 +27,7 @@
   </nav>
 </header>
 
-<main id="main">
+<main id="main" class="cards">
 <h1>Projects</h1>
 
 <p>Backend systems and applied AI. Two of the five have write-ups; the rest live on GitHub.</p>
@@ -35,31 +35,57 @@
   <article>
   <h3><a href="./projects/lexora.html">01 · Lexora</a></h3>
 <p>Ask questions over your documents. The LLM call is the easy part. Auth, jobs, isolation, and retries are the system.</p>
-<p class="small muted">Python, FastAPI, PostgreSQL, Redis · 35 tests</p>
+<ul class="chips">
+  <li class="chip">Python</li>
+  <li class="chip">FastAPI</li>
+  <li class="chip">PostgreSQL</li>
+  <li class="chip">Redis</li>
+  <li class="chip">35 tests</li>
+</ul>
 <p><a href="./projects/lexora.html">Case study</a> · <a href="https://github.com/sajadinmaker/lexora-ai">Source</a></p>
 </article>
   <article>
   <h3><a href="./projects/esencelab.html">02 · EsenceLab</a></h3>
 <p>AI hiring platform: product UX, backend services, resume and job matching.</p>
-<p class="small muted">TypeScript, Express, PostgreSQL</p>
+<ul class="chips">
+  <li class="chip">TypeScript</li>
+  <li class="chip">Express</li>
+  <li class="chip">PostgreSQL</li>
+</ul>
 <p><a href="./projects/esencelab.html">Write-up</a> · <a href="https://github.com/sajadinmaker/esencelab">Source</a></p>
 </article>
   <article>
   <h3><a href="https://github.com/sajadinmaker/vpnbox">03 · vpnbox</a></h3>
 <p>A free VPN for Linux, no accounts and no keys. It watches the volunteer-run VPN Gate relays and ranks what's actually alive by ping and speed. You can narrow the list by country or city. It connects you through OpenVPN with a full tunnel and the DNS handled, all in one stdlib-only Python file.</p>
-<p class="small muted">Python 3.8+ (stdlib only) · OpenVPN · v1.0.0-beta4</p>
+<ul class="chips">
+  <li class="chip">Python 3.8+ (stdlib only)</li>
+  <li class="chip">OpenVPN</li>
+  <li class="chip">v1.0.0-beta4</li>
+</ul>
 <p><a href="https://github.com/sajadinmaker/vpnbox">Source</a></p>
 </article>
   <article>
   <h3><a href="https://github.com/sajadinmaker/hookflow">04 · HookFlow</a></h3>
 <p>Webhooks that never get lost. The system accepts first, persists, then delivers with atomic claims, leases, and dead-letter recovery. Concurrent workers, zero double delivery, verified by test.</p>
-<p class="small muted">Python, FastAPI, PostgreSQL, Redis · 79 tests, ~93% coverage, 5 CI jobs</p>
+<ul class="chips">
+  <li class="chip">Python</li>
+  <li class="chip">FastAPI</li>
+  <li class="chip">PostgreSQL</li>
+  <li class="chip">Redis</li>
+  <li class="chip">79 tests</li>
+  <li class="chip">~93% coverage</li>
+  <li class="chip">5 CI jobs</li>
+</ul>
 <p><a href="https://github.com/sajadinmaker/hookflow">Source</a></p>
 </article>
   <article>
   <h3><a href="https://github.com/sajadinmaker/neudb">05 · neuDB</a></h3>
 <p>A tiny database in plain Python. Writes are crash-atomic, files are human-readable, and the scope is stated plainly rather than sold.</p>
-<p class="small muted">Python · 32 tests, CI</p>
+<ul class="chips">
+  <li class="chip">Python</li>
+  <li class="chip">32 tests</li>
+  <li class="chip">CI</li>
+</ul>
 <p><a href="https://github.com/sajadinmaker/neudb">Source</a> · <a href="https://github.com/sajadinmaker/neudb/blob/main/CHANGELOG.md">Changelog</a></p>
 </article>
   </main>
