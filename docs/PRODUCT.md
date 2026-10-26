@@ -13,7 +13,7 @@ email contact. No blog, no archive, no feed, no personality pages.
 
 - `index.html` (canonical), `projects.html`, `about.html`, `ai.html`, `engineering.html`, `404.html`
 - `projects/lexora.html`, `projects/esencelab.html` (case studies)
-- `style.css` (dark palette, OpenCode-style: near-black `#0c0c0e`, quiet greys, system blue links; 42rem column, static header, mono chrome)
+- `style.css` (ink palette: pure black `#000000`, quiet greys, system blue links; 42rem column, static header, mono chrome)
 - `script.js` (footer year, active-nav marking, mailto copy)
 - Discovery: `sitemap.xml`, `robots.txt`, OG meta, `favicon.svg`
 - Internal maintainer docs: `README.md`, `docs/PRODUCT.md`, `humans.txt`

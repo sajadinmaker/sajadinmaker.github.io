@@ -11,4 +11,4 @@ standards: html + css + es5 js. no frameworks was a choice, not a workaround.
 trackers: 0
 cookies: 0
 build: none (hand-edited)
-last update: 2026-10-24
+last update: 2026-10-26

@@ -1,16 +1,16 @@
-/* OpenCode-style dark: near-black, quiet greys, one system blue. Static header, plain lists, mono chrome. */
+/* Ink dark: pure black, quiet greys, one system blue. Static header, plain lists, mono chrome. */
 
 :root {
-  --bg: #0c0c0e;
-  --text: #c7c7cc;
+  --bg: #000000;
+  --text: #d8d8dc;
   --bright: #ffffff;
-  --muted: #a1a1a6;
-  --link: #007aff;
-  --link-hover: #0a84ff;
+  --muted: #98989d;
+  --link: #0a84ff;
+  --link-hover: #409cff;
   --border: #2c2c2e;
   --border-strong: #38383a;
   --ok: #30d158;
-  --code-bg: #161618;
+  --code-bg: #111113;
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
   color-scheme: dark;
@@ -33,7 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(0, 122, 255, 0.3); color: var(--bright); }
+::selection { background: rgba(10, 132, 255, 0.35); color: var(--bright); }
 
 a { color: var(--link); text-underline-offset: 2px; }
 a:visited { color: var(--link); }
