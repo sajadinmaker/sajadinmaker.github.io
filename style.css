@@ -1,20 +1,21 @@
-/* Ink dark: pure black, quiet greys, one system blue. Static header, plain lists, mono chrome. */
+/* Inspora light: white page, soft grey tiles, ink text. Static header, plain lists, mono chrome. */
 
 :root {
-  --bg: #000000;
-  --text: #d8d8dc;
-  --bright: #ffffff;
-  --muted: #98989d;
-  --link: #0a84ff;
-  --link-hover: #409cff;
-  --border: #2c2c2e;
-  --border-strong: #38383a;
-  --ok: #30d158;
-  --code-bg: #111113;
+  --bg: #ffffff;
+  --text: #262626;
+  --bright: #111111;
+  --muted: #6b6b6b;
+  --link: #262626;
+  --link-hover: #000000;
+  --border: #e6e6e6;
+  --border-strong: #d4d4d4;
+  --ok: #1a7f37;
+  --code-bg: #f0f0f0;
+  --surface: #f3f3f3;
   --radius: 10px;
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  color-scheme: dark;
+  color-scheme: light;
   scrollbar-color: var(--border-strong) transparent;
   scrollbar-width: thin;
 }
@@ -34,7 +35,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(10, 132, 255, 0.35); color: var(--bright); }
+::selection { background: var(--text); color: #ffffff; }
 
 a { color: var(--link); text-underline-offset: 2px; }
 a:visited { color: var(--link); }
@@ -98,7 +99,7 @@ ul.plain .meta { display: block; font-size: 0.84rem; color: var(--muted); }
 
 /* Inspora gallery language: rounded tile frames for the project cards, quiet hairlines on ink. */
 main.cards article {
-  background: var(--code-bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.35rem 1.5rem;
@@ -107,7 +108,7 @@ main.cards article + article { margin-top: 1rem; }
 main.cards article > :first-child { margin-top: 0; }
 main.cards article > :last-child { margin-bottom: 0; }
 
-/* Category chips: mono pills, Inspora's gallery tags. The source pill holds the link, so it stays system blue. */
+/* Category chips: mono pills, Inspora's gallery tags. The source pill holds the link, so it is the inverted one. */
 ul.chips {
   list-style: none;
   padding-left: 0;
@@ -122,12 +123,15 @@ ul.chips li { margin-bottom: 0; }
   font-size: 0.78rem;
   line-height: 1.45;
   color: var(--muted);
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 0.2rem 0.6rem;
   white-space: nowrap;
 }
-.chip a { text-decoration: none; }
+.chip a { text-decoration: none; color: var(--bg); }
+.chip:has(a) { background: var(--text); border-color: var(--text); }
+.chip:has(a):hover { background: var(--muted); border-color: var(--muted); }
 .breadcrumb, .back-link { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
 .back-link { margin-top: 2rem; }
@@ -207,7 +211,7 @@ footer {
 footer p { margin-bottom: 0.3rem; }
 
 a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--link);
+  outline: 2px solid var(--text);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -221,7 +225,7 @@ nav a:hover, nav a:focus-visible, nav a[aria-current="page"], nav a[data-section
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-nav .n { color: var(--link); font-size: 0.72rem; margin-right: 0.3rem; }
+nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
 
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
 ul.numbered li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
