@@ -27,7 +27,7 @@
   </nav>
 </header>
 
-<main id="main">
+<main id="main" class="case">
 <article>
   <p class="breadcrumb"><a href="../projects.html">projects</a> / esencelab</p>
   <h1>EsenceLab</h1>
@@ -49,7 +49,8 @@
   ↓
 API (Express: JWT + RBAC, rate limits, request IDs)
   ↓
-PostgreSQL (Supabase: users, resumes, candidates, jobs, applications)
+PostgreSQL (Supabase: users, resumes,
+  candidates, jobs, applications)
   ↓
 AI service (FastAPI: /ai/parse-resume, /ai/match)</pre>
   <p>Service calls are synchronous <code>fetch</code> with an internal service token and 8–12s timeouts, no queues yet, documented as the next step. Matching is deterministic first (<code>overlap×0.55 + TF-IDF×0.45</code> with fallbacks); the LLM path is optional with local fallback.</p>

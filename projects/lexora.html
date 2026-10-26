@@ -27,7 +27,7 @@
   </nav>
 </header>
 
-<main id="main">
+<main id="main" class="case">
 <article>
   <p class="breadcrumb"><a href="../projects.html">projects</a> / lexora</p>
   <h1>Lexora</h1>
@@ -51,11 +51,16 @@ FastAPI (/api/v1: auth, documents, chat)
   ↓
 PostgreSQL (users, documents, conversations, messages)
   ↓
-Redis / Background Worker (retrieval cache, token blacklist, document jobs)
+Redis / Background Worker
+  (retrieval cache, token blacklist,
+  document jobs)
   ↓
-Document Processing (validate → extract → chunk → embed → per-user FAISS)
+Document Processing
+  (validate → extract → chunk →
+  embed → per-user FAISS)
   ↓
-Retrieval (query embed → top-k → rank → context) → LLM (chat / stream)</pre>
+Retrieval (query embed → top-k → rank
+  → context) → LLM (chat / stream)</pre>
 
   <h2>Implementation</h2>
   <p>JWT register/login/refresh/logout with a Redis-backed token blacklist for logout and rotation. Uploads go through type/size validation, then extraction (pypdf, python-docx), chunking, embedding, and per-user FAISS indexing, all through the same <code>process_document</code> path in both inline and Celery modes. Chat answers through retrieval + LLM with SSE streaming and conversation history. Retrieval results cache for 1h under user-scoped keys. Non-streaming LLM calls retry 3× with exponential backoff; API routes carry request IDs and enforced per-IP rate limits (429 + <code>Retry-After</code>). Prometheus <code>/metrics</code>, structured JSON logs, <code>/health</code> + <code>/ready</code> (DB + Redis checks), Docker Compose for the full stack.</p>

@@ -79,6 +79,7 @@ h1 {
   overflow-wrap: break-word;
   font-weight: 700;
 }
+.hero { font-size: clamp(1.6rem, 1.32rem + 1.3vw, 2.7rem); }
 h2 { font-size: 1.15rem; margin: 2.2rem 0 0.55rem; overflow-wrap: break-word; font-weight: 650; }
 h3 { font-size: 1rem; margin: 1.4rem 0 0.3rem; overflow-wrap: break-word; font-weight: 650; }
 
@@ -98,6 +99,19 @@ main article + article { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1
 .breadcrumb, .back-link, .metaline { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
 .back-link { margin-top: 2rem; }
+
+/* Case-study sections: the site's numbered language, at section level. */
+main.case { counter-reset: cs; }
+main.case h2 { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.6rem; counter-increment: cs; }
+main.case h2::before {
+  content: counter(cs, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.3rem;
+}
 
 code {
   font-family: var(--mono);
