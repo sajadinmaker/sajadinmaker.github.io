@@ -5,7 +5,7 @@
 
 ## 1. What this product is
 
-Personal portfolio for Sajad: Selected work (Lexora, EsenceLab, vpnbox, HookFlow, neuDB), About,
+Personal portfolio for Sajad: Projects (Lexora, EsenceLab, vpnbox, HookFlow, neuDB), About,
 AI and Engineering pages. Goal: bring visitors to GitHub / LinkedIn /
 email contact. No blog, no archive, no feed, no personality pages.
 
@@ -14,7 +14,7 @@ email contact. No blog, no archive, no feed, no personality pages.
 - `index.html` (canonical), `projects.html`, `about.html`, `ai.html`, `engineering.html`, `404.html`
 - `projects/lexora.html`, `projects/esencelab.html` (case studies)
 - `style.css` (dark palette, OpenCode-style: near-black `#0c0c0e`, quiet greys, system blue links; 42rem column, static header, mono chrome)
-- `script.js` (~40 lines: footer year, active-nav marking, mailto copy)
+- `script.js` (footer year, active-nav marking, mailto copy)
 - Discovery: `sitemap.xml`, `robots.txt`, OG meta, `favicon.svg`
 - Internal maintainer docs: `README.md`, `docs/PRODUCT.md`, `humans.txt`
 
