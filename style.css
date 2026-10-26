@@ -9,6 +9,7 @@
   --link-hover: #0a84ff;
   --border: #2c2c2e;
   --border-strong: #38383a;
+  --ok: #30d158;
   --code-bg: #161618;
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -146,7 +147,7 @@ pre code { background: none; border: 0; padding: 0; }
   cursor: pointer;
 }
 .copy-btn:hover { color: var(--bright); border-color: var(--muted); }
-.copy-btn.is-done { color: #30d158; border-color: var(--border-strong); }
+.copy-btn.is-done { color: var(--ok); border-color: var(--border-strong); }
 
 .visually-hidden {
   position: absolute;
