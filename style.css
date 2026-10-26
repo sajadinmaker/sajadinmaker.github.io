@@ -30,7 +30,6 @@ body {
   max-width: 42rem;
   margin: 0 auto;
   padding: 1rem var(--pad) clamp(2.5rem, 6vh, 4rem);
-  min-width: 0;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -73,12 +72,6 @@ body > header {
 .site-title { font-family: var(--mono); font-size: 0.95rem; font-weight: 650; }
 .site-title a { color: var(--bright); text-decoration: none; }
 
-nav { display: flex; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.85rem; }
-nav a { text-decoration: none; }
-nav a, nav a:visited { color: var(--muted); }
-nav a:hover, nav a:visited:hover { color: var(--bright); }
-nav a[aria-current="page"], nav a[data-section] { color: var(--bright); }
-
 h1 {
   font-size: clamp(1.6rem, 1.32rem + 1.3vw, 2.15rem);
   line-height: 1.2;
@@ -93,8 +86,6 @@ p, ul, ol { margin-bottom: 0.9rem; overflow-wrap: break-word; }
 ul, ol { padding-left: 1.35rem; }
 li { margin-bottom: 0.25rem; }
 
-hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
-
 .muted { color: var(--muted); }
 .meta { color: var(--muted); }
 .small { font-size: 0.9rem; }
@@ -106,8 +97,6 @@ ul.plain .meta { display: block; font-size: 0.84rem; color: var(--muted); }
 main article + article { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .breadcrumb, .back-link, .metaline { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
-main article > header { margin-bottom: 0.5rem; }
-main article > header p:first-child { color: var(--muted); font-size: 0.86rem; }
 .back-link { margin-top: 2rem; }
 
 code {
@@ -177,17 +166,16 @@ a:focus-visible, button:focus-visible {
   border-radius: 2px;
 }
 
-/* Geek touch: numbered nav, numbered list. */
+/* Numbered nav and list: the geek touch. One home for every nav rule. */
+nav { display: flex; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.85rem; }
+nav a { text-decoration: none; padding: 0.45rem 0.35rem; }
+nav a, nav a:visited { color: var(--muted); }
+nav a:hover, nav a:visited:hover, nav a[aria-current="page"], nav a[data-section] { color: var(--bright); }
+nav a:hover, nav a:focus-visible, nav a[aria-current="page"], nav a[data-section] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 nav .n { color: var(--link); font-size: 0.72rem; margin-right: 0.3rem; }
-nav a { padding: 0.45rem 0.35rem; }
-nav a:hover, nav a:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-nav a[aria-current="page"], nav a[data-section] {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
 ul.numbered li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
