@@ -227,6 +227,31 @@ nav a:hover, nav a:focus-visible, nav a[aria-current="page"], nav a[data-section
 }
 nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
 
+/* Small screens: stop letting flex-wrap decide the header layout by accident.
+   Below 480px the title and 4 nav items can't share a row, so stack the header
+   on purpose. Up to 719px keep the one-line header but give the nav rows the
+   height fingers need. The narrow block must come after this one so its nav
+   values win where both apply. */
+@media (max-width: 719px) {
+  nav { gap: 0.1rem 1rem; }
+  nav a { padding: 0.6rem 0.35rem; }
+}
+@media (max-width: 479px) {
+  body > header { display: block; margin-bottom: 1.3rem; }
+  nav {
+    display: grid;
+    margin-top: 0.2rem;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 0 1.15rem;
+  }
+  nav a { padding: 0.62rem 0.15rem 0.62rem 0; }
+}
+/* On touch screens the grey tap flash competes with our own underline marks. */
+@media (hover: none) {
+  a, nav a, .copy-btn { -webkit-tap-highlight-color: transparent; }
+}
+
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
 ul.numbered li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
 ul.numbered li::before {
