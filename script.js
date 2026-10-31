@@ -30,17 +30,6 @@
   }
   markNav();
 
-  /* A quiet cursor signal on the dark homepage. It is decorative only and
-     disappears for coarse pointers or reduced-motion users. */
-  if (document.body.classList.contains('home-page') && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var glow = document.createElement('div');
-    glow.className = 'cursor-glow';
-    document.body.appendChild(glow);
-    document.addEventListener('pointermove', function (event) {
-      glow.style.transform = 'translate3d(' + event.clientX + 'px,' + event.clientY + 'px,0)';
-    }, {passive: true});
-  }
-
   /* A copy button next to any link that displays a bare email address. */
   if (document.querySelectorAll('a[href^="mailto:"]').length) {
     var supportsClipboard = !!(navigator.clipboard && window.isSecureContext);
