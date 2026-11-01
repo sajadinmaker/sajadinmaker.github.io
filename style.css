@@ -18,6 +18,7 @@
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --neon: #ff073a;
   color-scheme: light;
   scrollbar-color: var(--border-strong) transparent;
   scrollbar-width: thin;
@@ -62,18 +63,10 @@ h1, h2, h3, strong { color: var(--bright); }
 }
 .skip-link:focus { transform: translateY(0); }
 
-/* The manual frame: page(n) on both wings, section name between, dotted rule. */
-.mp-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-  border-bottom: 1px dotted var(--border-strong);
-  padding-bottom: 0.45rem;
-  margin-bottom: 1.6rem;
-}
+/* The background: an original ASCII tide in neon red, behind the page.
+   The canvas is decorative, so it sits under the content and ignores pointers. */
+canvas.ascii-tide { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+body > header, body > main, body > footer { position: relative; z-index: 1; }
 
 /* Header: plain row over a rule on small screens, sidebar on wide ones. */
 body > header {
@@ -287,8 +280,6 @@ nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
     gap: 0 1.15rem;
   }
   nav a { padding: 0.62rem 0.15rem 0.62rem 0; }
-  /* The center label has no room here; the (1) wings carry the frame. */
-  .mp-top span:nth-child(2) { display: none; }
 }
 /* On touch screens the grey tap flash competes with our own underline marks. */
 @media (hover: none) {
@@ -302,16 +293,15 @@ nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
   body {
     display: grid;
     grid-template-columns: 200px minmax(0, 44rem);
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 1fr;
     column-gap: clamp(2.5rem, 6vw, 4.5rem);
     justify-content: center;
     max-width: none;
     padding: 1.4rem clamp(2rem, 6vw, 5rem) 3rem;
   }
-  .mp-top { grid-column: 1 / -1; grid-row: 1; margin-bottom: 1.8rem; }
   body > header {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     display: block;
     border-bottom: 0;
     padding-bottom: 0;
@@ -322,8 +312,8 @@ nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
   .site-role { display: block; }
   nav { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; gap: 0; margin-top: 0.55rem; }
   nav a { padding: 0.32rem 0; }
-  main { grid-column: 2; grid-row: 2; }
-  footer { grid-column: 2; grid-row: 3; margin-top: 3rem; }
+  main { grid-column: 2; grid-row: 1; }
+  footer { grid-column: 2; grid-row: 2; margin-top: 3rem; }
 }
 
 ul.numbered { list-style: none; padding-left: 0; counter-reset: work; }
@@ -341,7 +331,8 @@ ul.numbered li::before {
 
 @media print {
   body { max-width: none; padding: 0; color: #000; background: #fff; }
-  body > header, footer, .copy-btn, .skip-link, .mp-top { display: none; }
+  body > header, footer, .copy-btn, .skip-link { display: none; }
+  canvas.ascii-tide { display: none; }
   a { color: #000; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.78em; word-break: break-all; }
   code { color: #000; background: none; border: 1px solid #bbb; }
