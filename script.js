@@ -79,6 +79,11 @@
       var cy2 = rows * 0.64 + Math.sin(tt * 0.44 + 0.6) * rows * 0.10;
       var cx3 = cols * 0.52 + Math.sin(tt * 0.6 + 2.1) * cols * 0.18;
       var cy3 = rows * 0.14 + Math.cos(tt * 0.3 + 1.2) * rows * 0.06;
+      /* The surreal beat: a dotted eclipse ring whose disc keeps drifting out
+         of it and drifting back, on its own long clock. */
+      var ex = cols * 0.5 + Math.sin(tt * 0.21) * cols * 0.22;
+      var ey = rows * 0.24 + Math.cos(tt * 0.17) * rows * 0.08;
+      var away = (0.5 + 0.5 * Math.sin(tt * 0.43)) * 24;
       for (var y = 0; y < rows; y++) {
         for (var x = 0; x < cols; x++) {
           /* Three soft, wide swells; glyph density shades them like water. */
@@ -90,6 +95,13 @@
                 + 0.50 * Math.exp(-(d2x * d2x + d2y * d2y) / 300)
                 + 0.38 * Math.exp(-(d3x * d3x + d3y * d3y) / 260)
                 + 0.10 * wave;
+          /* The ring holds its place; the disc drifts out of it and back. */
+          var erx = x - ex, ery = y - ey;
+          var er = Math.sqrt(erx * erx + ery * ery);
+          if (Math.abs(er - 7) < 0.9) v += 0.5 * (1 - Math.abs(er - 7) / 0.9);
+          var ddx = x - ex - away, ddy = y - ey;
+          var ddr = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (ddr < 2.4) v += 0.3 * (1 - ddr / 2.4);
           if (v < 0.48) continue;
           var hsh = hash(x, y);
           if (hsh < 0.35) continue;

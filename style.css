@@ -3,17 +3,18 @@
    frameworks, no webfonts, tokens only. */
 
 :root {
-  --bg: #ffffff;
-  --text: #262626;
-  --bright: #111111;
-  --muted: #6b6b6b;
-  --link: #262626;
-  --link-hover: #000000;
-  --border: #e6e6e6;
-  --border-strong: #d4d4d4;
+  --bg: #faf8f2;
+  --text: #2e2b27;
+  --bright: #141210;
+  --muted: #6e675e;
+  --link: #2e2b27;
+  --link-hover: #a04f24;
+  --terra: #a04f24;
+  --border: #e7e0d3;
+  --border-strong: #d8cfc0;
   --ok: #1a7f37;
-  --code-bg: #f0f0f0;
-  --surface: #f3f3f3;
+  --code-bg: #f2ede3;
+  --surface: #f6f2e9;
   --radius: 10px;
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -30,13 +31,28 @@ html { font-size: clamp(16px, 15.4px + 0.2vw, 17.5px); -webkit-text-size-adjust:
 
 body {
   font-family: var(--serif);
-  background: var(--bg);
+  /* Warm ground with two slow washes: pale ochre top right, sage left.
+     Fixed layers, too faint to print; the print sheet is forced white below. */
+  background:
+    radial-gradient(38rem 26rem at 84% -6%, rgba(160, 79, 36, 0.05), transparent 70%),
+    radial-gradient(44rem 30rem at -10% 30%, rgba(125, 132, 113, 0.07), transparent 70%),
+    var(--bg);
   color: var(--text);
   line-height: 1.7;
   max-width: 42rem;
   margin: 0 auto;
   padding: 1rem var(--pad) clamp(2.5rem, 6vh, 4rem);
   -webkit-font-smoothing: antialiased;
+}
+
+/* The ethereal bit: the page breathes in once. Motion users only. */
+@media (prefers-reduced-motion: no-preference) {
+  body > header, body > main, body > footer {
+    animation: rise 0.55s ease both;
+  }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
 }
 
 ::selection { background: var(--text); color: #ffffff; }
@@ -132,14 +148,21 @@ ul.plain li { margin-bottom: 0.85rem; }
 ul.plain .meta { display: block; font-size: 0.84rem; color: var(--muted); }
 
 /* Rounded tile frames for the project cards, quiet hairlines on ink. */
+/* Bohemian frames: the tiles arch at the top like a matisse window, sit on a
+   feather shadow, and lift a breath when the reader points at them. */
 main.cards article {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 1.7rem 1.7rem 10px 10px;
   padding: 1.35rem 1.5rem;
-  transition: border-color 0.2s ease;
+  box-shadow: 0 10px 28px rgba(46, 43, 39, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
-main.cards article:hover { border-color: var(--border-strong); }
+main.cards article:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 14px 34px rgba(46, 43, 39, 0.08);
+  transform: translateY(-2px);
+}
 main.cards article + article { margin-top: 1rem; }
 main.cards article > :first-child { margin-top: 0; }
 main.cards article > :last-child { margin-bottom: 0; }
@@ -275,7 +298,7 @@ nav a:hover, nav a:focus-visible, nav a[aria-current="page"], nav a[data-section
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-nav .n { color: var(--text); font-size: 0.72rem; margin-right: 0.3rem; }
+nav .n { color: var(--terra); font-size: 0.72rem; margin-right: 0.3rem; }
 
 /* Small screens: stop letting flex-wrap decide the header layout by accident.
    Below 480px the title and 4 nav items can't share a row, so stack the header
