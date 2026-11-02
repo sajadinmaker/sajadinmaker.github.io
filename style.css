@@ -19,7 +19,6 @@
   --pad: clamp(1.1rem, 4vw, 2rem);
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-  --neon: #ff073a;
   color-scheme: light;
   scrollbar-color: var(--border-strong) transparent;
   scrollbar-width: thin;
@@ -91,11 +90,6 @@ h1, h2, h3, strong { color: var(--bright); }
   border-radius: 4px;
 }
 .skip-link:focus { transform: translateY(0); }
-
-/* The background: an original ASCII tide in neon red, behind the page.
-   The canvas is decorative, so it sits under the content and ignores pointers. */
-canvas.ascii-tide { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-body > header, body > main, body > footer { position: relative; z-index: 1; }
 
 /* Header: plain row over a rule on small screens, sidebar on wide ones. */
 body > header {
@@ -371,7 +365,6 @@ ul.numbered li::before {
 @media print {
   body { max-width: none; padding: 0; color: #000; background: #fff; }
   body > header, footer, .copy-btn, .skip-link { display: none; }
-  canvas.ascii-tide { display: none; }
   a { color: #000; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.78em; word-break: break-all; }
   code { color: #000; background: none; border: 1px solid #bbb; }
