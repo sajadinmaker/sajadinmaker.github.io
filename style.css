@@ -41,9 +41,22 @@ body {
 
 ::selection { background: var(--text); color: #ffffff; }
 
-a { color: var(--link); text-underline-offset: 2px; }
+a { color: var(--link); text-underline-offset: 3px; }
 a:visited { color: var(--link); }
 a:hover { color: var(--link-hover); }
+
+/* Manual-page links: a dotted rule until you move the pointer, then solid ink. */
+main a, footer a {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--muted);
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+main a:hover, footer a:hover {
+  color: var(--link-hover);
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
+}
 
 h1, h2, h3, strong { color: var(--bright); }
 
@@ -124,7 +137,9 @@ main.cards article {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.35rem 1.5rem;
+  transition: border-color 0.2s ease;
 }
+main.cards article:hover { border-color: var(--border-strong); }
 main.cards article + article { margin-top: 1rem; }
 main.cards article > :first-child { margin-top: 0; }
 main.cards article > :last-child { margin-bottom: 0; }
@@ -151,7 +166,7 @@ ul.chips li { margin-bottom: 0; }
   white-space: nowrap;
 }
 .chip a { text-decoration: none; color: var(--bg); }
-.chip:has(a) { background: var(--text); border-color: var(--text); }
+.chip:has(a) { background: var(--text); border-color: var(--text); transition: background 0.15s ease, border-color 0.15s ease; }
 .chip:has(a):hover { background: var(--muted); border-color: var(--muted); }
 .breadcrumb, .back-link { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
 .breadcrumb { overflow-wrap: anywhere; margin-bottom: 1rem; }
@@ -217,6 +232,7 @@ pre.stack {
   padding: 0 0.45rem;
   margin-left: 0.5rem;
   cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 .copy-btn:hover { color: var(--bright); border-color: var(--muted); }
 .copy-btn.is-done { color: var(--ok); border-color: var(--border-strong); }
@@ -252,7 +268,7 @@ a:focus-visible, button:focus-visible {
 
 /* Numbered nav and list: the geek touch. One home for every nav rule. */
 nav { display: flex; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.85rem; }
-nav a { text-decoration: none; padding: 0.45rem 0.35rem; }
+nav a { text-decoration: none; padding: 0.45rem 0.35rem; transition: color 0.15s ease; }
 nav a, nav a:visited { color: var(--muted); }
 nav a:hover, nav a:visited:hover, nav a[aria-current="page"], nav a[data-section] { color: var(--bright); }
 nav a:hover, nav a:focus-visible, nav a[aria-current="page"], nav a[data-section] {

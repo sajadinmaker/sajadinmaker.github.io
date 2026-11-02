@@ -77,20 +77,24 @@
       var cy1 = rows * 0.36 + Math.cos(tt * 0.4) * rows * 0.08;
       var cx2 = cols * 0.72 + Math.cos(tt * 0.34 + 1.7) * cols * 0.09;
       var cy2 = rows * 0.64 + Math.sin(tt * 0.44 + 0.6) * rows * 0.10;
+      var cx3 = cols * 0.52 + Math.sin(tt * 0.6 + 2.1) * cols * 0.18;
+      var cy3 = rows * 0.14 + Math.cos(tt * 0.3 + 1.2) * rows * 0.06;
       for (var y = 0; y < rows; y++) {
         for (var x = 0; x < cols; x++) {
-          /* Two soft, wide swells; glyph density shades them like water. */
+          /* Three soft, wide swells; glyph density shades them like water. */
           var d1x = x - cx1, d1y = (y - cy1) * 1.15;
           var d2x = x - cx2, d2y = (y - cy2) * 1.15;
+          var d3x = x - cx3, d3y = (y - cy3) * 1.15;
           var wave = 0.5 + 0.5 * Math.sin(x * 0.11 + y * 0.07 - tt * 1.2);
           var v = 0.62 * Math.exp(-(d1x * d1x + d1y * d1y) / 420)
                 + 0.50 * Math.exp(-(d2x * d2x + d2y * d2y) / 300)
+                + 0.38 * Math.exp(-(d3x * d3x + d3y * d3y) / 260)
                 + 0.10 * wave;
-          if (v < 0.55) continue;
+          if (v < 0.48) continue;
           var hsh = hash(x, y);
           if (hsh < 0.35) continue;
-          ctx.globalAlpha = 0.06 + Math.min(0.09, (v - 0.55) * 0.22) + hsh * 0.02;
-          var gi = Math.min(glyphs.length - 1, ((v - 0.55) * 6 + hsh * 1.5) | 0);
+          ctx.globalAlpha = 0.08 + Math.min(0.12, (v - 0.48) * 0.22) + hsh * 0.02;
+          var gi = Math.min(glyphs.length - 1, ((v - 0.48) * 7 + hsh * 1.5) | 0);
           ctx.fillText(glyphs[gi], x * CELL + (hsh - 0.5) * 2, y * CELL);
         }
       }
